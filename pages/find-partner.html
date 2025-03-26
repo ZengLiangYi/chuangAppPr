@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>找搭子</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 页面标题和搜索 -->
+    <div class="bg-white p-4 pb-2">
+        <h1 class="text-xl font-bold mb-3">找搭子</h1>
+        <div class="search-bar mb-3">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="搜索活动或技能">
+        </div>
+    </div>
+
+    <!-- 主要Tab分类 -->
+    <div class="bg-white">
+        <div class="main-tabs">
+            <div class="main-tab" data-tab="teachers">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>找老师</span>
+            </div>
+            <div class="main-tab" data-tab="mentors">
+                <i class="fas fa-briefcase"></i>
+                <span>找导师</span>
+            </div>
+            <div class="main-tab" data-tab="projects">
+                <i class="fas fa-project-diagram"></i>
+                <span>找项目</span>
+            </div>
+            <div class="main-tab active" data-tab="students">
+                <i class="fas fa-user-friends"></i>
+                <span>找达人</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分类标签 - 找老师 -->
+    <div class="category-container bg-white sticky-top shadow-sm" id="teachers-categories" style="display: none;">
+        <div class="category-tabs">
+            <div class="category-tab active">全部</div>
+            <div class="category-tab">计算机</div>
+            <div class="category-tab">商学院</div>
+            <div class="category-tab">设计学院</div>
+            <div class="category-tab">工程学院</div>
+        </div>
+    </div>
+
+    <!-- 分类标签 - 找导师 -->
+    <div class="category-container bg-white sticky-top shadow-sm" id="mentors-categories" style="display: none;">
+        <div class="category-tabs">
+            <div class="category-tab active">全部</div>
+            <div class="category-tab">技术指导</div>
+            <div class="category-tab">融资对接</div>
+            <div class="category-tab">商业模式</div>
+            <div class="category-tab">创业导师</div>
+        </div>
+    </div>
+
+    <!-- 分类标签 - 找项目 -->
+    <div class="category-container bg-white sticky-top shadow-sm" id="projects-categories" style="display: none;">
+        <div class="category-tabs">
+            <div class="category-tab active">全部</div>
+            <div class="category-tab">AI应用</div>
+            <div class="category-tab">环保科技</div>
+            <div class="category-tab">教育科技</div>
+            <div class="category-tab">互联网+</div>
+        </div>
+    </div>
+
+    <!-- 分类标签 - 找达人 -->
+    <div class="category-container bg-white sticky-top shadow-sm" id="students-categories">
+        <div class="category-tabs">
+            <div class="category-tab active">全部</div>
+            <div class="category-tab">AI</div>
+            <div class="category-tab">UI设计</div>
+            <div class="category-tab">前端开发</div>
+            <div class="category-tab">后端开发</div>
+        </div>
+    </div>
+
+    <!-- 找老师Tab内容 -->
+    <div class="tab-content pb-navigation" id="teachers-content" style="display: none;">
+        <div class="bg-white">
+            <!-- 老师卡片 1 -->
+            <div class="partner-card">
+                <img src="https://randomuser.me/api/portraits/men/72.jpg" alt="老师头像" class="partner-avatar">
+                <div class="partner-info">
+                    <h3 class="partner-name">王教授 <span class="verified-badge"><i class="fas fa-check-circle"></i></span>
+                    </h3>
+                    <div class="partner-title">计算机科学与技术学院</div>
+                    <p class="partner-message">人工智能与机器学习专家，主要研究方向为深度学习、计算机视觉。可提供创新项目指导与论文指导。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">人工智能</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">机器学习</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">论文指导</span>
+                    </div>
+                </div>
+                <a href="user-detail.html?role=mentor" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 老师卡片 2 -->
+            <div class="partner-card">
+                <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="老师头像" class="partner-avatar">
+                <div class="partner-info">
+                    <h3 class="partner-name">李教授 <span class="verified-badge"><i class="fas fa-check-circle"></i></span>
+                    </h3>
+                    <div class="partner-title">创新创业学院</div>
+                    <p class="partner-message">创业导师，曾指导多个团队获得国家级创新创业大赛奖项。提供创业计划书指导、项目路演培训。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">创新创业</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">商业计划</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">路演指导</span>
+                    </div>
+                </div>
+                <a href="user-detail.html?role=mentor" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 老师卡片 3 -->
+            <div class="partner-card">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="老师头像" class="partner-avatar">
+                <div class="partner-info">
+                    <h3 class="partner-name">张教授 <span class="verified-badge"><i class="fas fa-check-circle"></i></span>
+                    </h3>
+                    <div class="partner-title">商学院</div>
+                    <p class="partner-message">市场营销专家，擅长商业模式设计与市场策略分析。可提供商业计划书评审与项目市场定位指导。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">市场营销</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">商业模式</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">市场分析</span>
+                    </div>
+                </div>
+                <a href="user-detail.html?role=mentor" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 找导师Tab内容 -->
+    <div class="tab-content pb-navigation" id="mentors-content" style="display: none;">
+        <div class="bg-white">
+            <!-- 导师卡片 1 -->
+            <div class="partner-card">
+                <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="导师头像" class="partner-avatar">
+                <div class="partner-info">
+                    <h3 class="partner-name">陈总 <span class="enterprise-badge"><i class="fas fa-building"></i></span>
+                    </h3>
+                    <div class="partner-title">科技创新有限公司 | 创始人兼CEO</div>
+                    <p class="partner-message">连续创业者，拥有10年互联网产品经验，曾参与多个独角兽企业的早期孵化。提供创业指导和资源对接。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">创业孵化</span>
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">产品设计</span>
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">资源对接</span>
+                    </div>
+                </div>
+                <a href="user-detail.html?role=mentor" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 导师卡片 2 -->
+            <div class="partner-card">
+                <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="导师头像" class="partner-avatar">
+                <div class="partner-info">
+                    <h3 class="partner-name">林总 <span class="enterprise-badge"><i class="fas fa-building"></i></span>
+                    </h3>
+                    <div class="partner-title">未来投资基金 | 投资总监</div>
+                    <p class="partner-message">专注于早期科技项目投资，擅长发掘高潜力创业团队。可提供项目融资咨询和投资人对接。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">投资融资</span>
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">商业计划</span>
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">财务规划</span>
+                    </div>
+                </div>
+                <a href="user-detail.html?role=mentor" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 导师卡片 3 -->
+            <div class="partner-card">
+                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="导师头像" class="partner-avatar">
+                <div class="partner-info">
+                    <h3 class="partner-name">吴总 <span class="enterprise-badge"><i class="fas fa-building"></i></span>
+                    </h3>
+                    <div class="partner-title">智能科技有限公司 | 技术副总裁</div>
+                    <p class="partner-message">技术专家，在AI和物联网领域拥有多项专利。愿意为创新项目提供技术指导和行业资源。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">人工智能</span>
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">物联网</span>
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">技术指导</span>
+                    </div>
+                </div>
+                <a href="user-detail.html?role=mentor" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 找项目Tab内容 -->
+    <div class="tab-content pb-navigation" id="projects-content" style="display: none;">
+        <div class="bg-white">
+            <!-- 项目卡片 1 -->
+            <div class="partner-card">
+                <div class="project-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="partner-info">
+                    <h3 class="partner-name">智能校园助手</h3>
+                    <div class="partner-title">计算机学院 | 张同学</div>
+                    <p class="partner-message">基于大语言模型的校园智能助手，需要UI设计师和后端开发人员加入团队，共同参加创新创业大赛。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">AI应用</span>
+                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">招募中</span>
+                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">创新大赛</span>
+                    </div>
+                </div>
+                <a href="project-detail.html" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 项目卡片 2 -->
+            <div class="partner-card">
+                <div class="project-avatar">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div class="partner-info">
+                    <h3 class="partner-name">环保回收平台</h3>
+                    <div class="partner-title">商学院 | 李同学</div>
+                    <p class="partner-message">校园环保回收平台，已有产品原型，正在寻找开发人员和营销人员组建完整团队。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">环保科技</span>
+                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">招募中</span>
+                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">已有原型</span>
+                    </div>
+                </div>
+                <a href="project-detail.html" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 项目卡片 3 -->
+            <div class="partner-card">
+                <div class="project-avatar">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="partner-info">
+                    <h3 class="partner-name">学习资源共享平台</h3>
+                    <div class="partner-title">计算机学院 | 王同学</div>
+                    <p class="partner-message">面向大学生的学习资源共享平台，需要产品经理和UI设计师加入团队，一起参加互联网+大赛。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">教育科技</span>
+                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">招募中</span>
+                        <span class="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">互联网+</span>
+                    </div>
+                </div>
+                <a href="project-detail.html" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 找达人Tab内容 -->
+    <div class="tab-content pb-navigation" id="students-content">
+        <div class="bg-white">
+            <!-- 找搭子项目 1 - 创客项目学生 -->
+            <div class="partner-card">
+                <div class="avatar-container">
+                    <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="用户头像" class="partner-avatar">
+                    <div class="avatar-decoration maker-decoration">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                </div>
+                <div class="partner-info">
+                    <h3 class="partner-name">李同学 <span class="student-badge maker-badge">创客项目</span></h3>
+                    <div class="partner-activity">2025年全国大学生创新创业大赛校内选拔赛</div>
+                    <p class="partner-message">寻找UI设计师和前端开发，一起组队参加创新创业大赛，有意向的同学请联系我！</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">UI设计</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">前端开发</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">创业大赛</span>
+                    </div>
+                </div>
+                <a href="user-detail.html" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 找搭子项目 2 - 创业学生 -->
+            <div class="partner-card">
+                <div class="avatar-container">
+                    <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="用户头像" class="partner-avatar">
+                    <div class="avatar-decoration entrepreneur-decoration">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                </div>
+                <div class="partner-info">
+                    <h3 class="partner-name">王同学 <span class="student-badge entrepreneur-badge">创业学生</span></h3>
+                    <div class="partner-activity">AI时代的创业机遇与挑战 - 行业专家分享会</div>
+                    <p class="partner-message">想找几个对AI创业感兴趣的同学一起参加这个分享会，会后可以一起讨论交流。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">AI</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">创业</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">交流讨论</span>
+                    </div>
+                </div>
+                <a href="user-detail.html" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 找搭子项目 3 - 普通学生（不显示标签） -->
+            <div class="partner-card">
+                <div class="avatar-container">
+                    <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="用户头像" class="partner-avatar">
+                </div>
+                <div class="partner-info">
+                    <h3 class="partner-name">张同学</h3>
+                    <div class="partner-activity">一天搞定商业计划书 - 实战工作坊</div>
+                    <p class="partner-message">找一个有商业计划书撰写经验的同学一起参加工作坊，互相学习，共同进步。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">商业计划书</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">创业</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">互相学习</span>
+                    </div>
+                </div>
+                <a href="user-detail.html" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 找搭子项目 4 - 创业学生 -->
+            <div class="partner-card">
+                <div class="avatar-container">
+                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="用户头像" class="partner-avatar">
+                    <div class="avatar-decoration entrepreneur-decoration">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                </div>
+                <div class="partner-info">
+                    <h3 class="partner-name">赵同学 <span class="student-badge entrepreneur-badge">创业学生</span></h3>
+                    <div class="partner-activity">创业项目融资指南</div>
+                    <p class="partner-message">我有一个创业项目想法，正在寻找对金融和市场营销有了解的同学一起参加这个讲座，希望能获得一些融资方面的指导。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">融资</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">金融</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">市场营销</span>
+                    </div>
+                </div>
+                <a href="user-detail.html" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 找搭子项目 5 - 创客项目学生 -->
+            <div class="partner-card">
+                <div class="avatar-container">
+                    <img src="https://randomuser.me/api/portraits/women/29.jpg" alt="用户头像" class="partner-avatar">
+                    <div class="avatar-decoration maker-decoration">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                </div>
+                <div class="partner-info">
+                    <h3 class="partner-name">陈同学 <span class="student-badge maker-badge">创客项目</span></h3>
+                    <div class="partner-activity">2025年全国大学生创新创业大赛校内选拔赛</div>
+                    <p class="partner-message">我是计算机专业的学生，有一个关于智能家居的创新项目，正在寻找电子工程和产品设计方面的同学组队参赛。</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">智能家居</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">电子工程</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">产品设计</span>
+                    </div>
+                </div>
+                <a href="user-detail.html" class="connect-btn btn btn-outline ml-2">
+                    联系
+                </a>
+            </div>
+
+            <!-- 加载更多 -->
+            <div class="load-more">
+                <i class="fas fa-spinner fa-spin mr-2"></i> 加载更多
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item active">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <style>
+        /* 主要Tab样式 */
+        .main-tabs {
+            display: flex;
+            overflow-x: auto;
+            background-color: white;
+            padding: 0;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 1px;
+        }
+
+        .main-tab {
+            flex: 1;
+            min-width: 80px;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--dark-gray);
+            position: relative;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .main-tab i {
+            font-size: 18px;
+        }
+
+        .main-tab.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .main-tab.active:after {
+            content: '';
+            position: absolute;
+            left: 25%;
+            bottom: 0;
+            width: 50%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* 分类标签区域固定在顶部 */
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* 分类标签优化 */
+        .category-tabs {
+            border-bottom: none;
+        }
+
+        /* 卡片和标签样式 */
+        .verified-badge,
+        .enterprise-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .enterprise-badge {
+            color: var(--accent-color);
+        }
+
+        /* 学生身份标签 */
+        .student-badge {
+            display: inline-flex;
+            font-size: 10px;
+            font-weight: 500;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            align-items: center;
+            vertical-align: middle;
+        }
+
+        .partner-name {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .maker-badge {
+            background-color: #f0e6ff;
+            color: #7e57c2;
+            border: 1px solid #d4c1ff;
+        }
+
+        .entrepreneur-badge {
+            background-color: #e6f7ff;
+            color: #0288d1;
+            border: 1px solid #bbe3ff;
+        }
+
+        /* 头像装饰 */
+        .avatar-container {
+            position: relative;
+            margin-right: 12px;
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+        }
+
+        .avatar-decoration {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 10px;
+            border: 2px solid white;
+            z-index: 2;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .maker-decoration {
+            background: linear-gradient(135deg, #7e57c2, #b39ddb);
+            color: white;
+        }
+
+        .entrepreneur-decoration {
+            background: linear-gradient(135deg, #0288d1, #64b5f6);
+            color: white;
+        }
+
+        .partner-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .partner-title {
+            font-size: 13px;
+            color: var(--dark-gray);
+            margin-bottom: 8px;
+        }
+
+        .project-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        /* 给内容区域添加底部padding，防止被底部导航栏遮挡 */
+        .pb-navigation {
+            padding-bottom: 70px;
+        }
+
+        /* 加载更多按钮样式优化 */
+        .load-more {
+            padding: 16px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+
+        /* 底部导航栏样式优化 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Tab切换逻辑
+            const mainTabs = document.querySelectorAll('.main-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const categoryContainers = document.querySelectorAll('.category-container');
+
+            mainTabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const tabId = this.getAttribute('data-tab');
+
+                    // 激活当前Tab
+                    mainTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // 显示相应内容
+                    tabContents.forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    document.getElementById(`${tabId}-content`).style.display = 'block';
+
+                    // 显示相应分类标签
+                    categoryContainers.forEach(container => {
+                        container.style.display = 'none';
+                    });
+                    document.getElementById(`${tabId}-categories`).style.display = 'block';
+                });
+            });
+
+            // 分类标签点击事件
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    // 找到当前Tab容器内的所有分类标签
+                    const parentContainer = this.closest('.category-container');
+                    const siblingTabs = parentContainer.querySelectorAll('.category-tab');
+
+                    // 激活当前分类
+                    siblingTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // 这里可以添加筛选内容的逻辑
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

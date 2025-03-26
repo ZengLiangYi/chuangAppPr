@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景圆形 -->
+    <circle cx="30" cy="30" r="28" fill="#3498db" opacity="0.1"/>
+    
+    <!-- 主图标：创新灯泡 -->
+    <path d="M30 12C30 12 36 24 36 30C36 36 33 42 30 42C27 42 24 36 24 30C24 24 30 12 30 12Z" fill="#3498db"/>
+    
+    <!-- 灯泡底座 -->
+    <path d="M30 42L25 47H35L30 42Z" fill="#2980b9"/>
+    
+    <!-- 光晕效果 -->
+    <circle cx="30" cy="30" r="20" fill="#3498db" opacity="0.05"/>
+    <circle cx="30" cy="30" r="15" fill="#3498db" opacity="0.1"/>
+</svg> 

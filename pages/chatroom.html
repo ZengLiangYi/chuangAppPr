@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天室</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* 附件按钮样式 */
+        .attachment-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            margin-right: 10px;
+            transition: all 0.2s;
+        }
+
+        .attachment-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* 首次聊天模板样式 */
+        #first-chat-template {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--medium-gray);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 40;
+        }
+
+        #first-chat-template .user-profile {
+            padding: 16px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        #first-chat-template .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+        }
+
+        #first-chat-template .user-info {
+            margin-left: 12px;
+        }
+
+        #first-chat-template .user-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+
+        #first-chat-template .user-role {
+            font-size: 13px;
+            color: var(--dark-gray);
+        }
+
+        #first-chat-template .quick-replies {
+            padding: 12px 16px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .quick-reply-btn {
+            background-color: var(--light-gray);
+            border: 1px solid var(--medium-gray);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: left;
+            transition: all 0.2s;
+            white-space: normal;
+            height: auto;
+            line-height: 1.4;
+        }
+
+        .quick-reply-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* 调整聊天容器样式，使其成为相对定位的容器 */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 104px - 60px);
+            /* 减去顶部状态栏和标题高度以及底部导航栏高度 */
+            position: relative;
+            background-color: var(--light-gray);
+        }
+
+        /* 聊天消息区域，允许滚动 */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            padding-bottom: 70px;
+            /* 为固定的输入框留出空间 */
+        }
+
+        /* 调整聊天输入框样式，使其固定在底部 */
+        .chat-input {
+            display: flex;
+            padding: 10px 16px;
+            background-color: white;
+            border-top: 1px solid var(--medium-gray);
+            align-items: center;
+            position: fixed;
+            bottom: 60px;
+            /* 底部导航栏的高度 */
+            left: 0;
+            right: 0;
+            z-index: 50;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 附件菜单样式 */
+        .attachment-menu {
+            position: fixed;
+            bottom: 130px;
+            /* 聊天输入框高度 + 底部导航栏高度 */
+            left: 16px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 8px 0;
+            display: none;
+            z-index: 100;
+        }
+
+        .attachment-menu.active {
+            display: block;
+        }
+
+        .attachment-option {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .attachment-option i {
+            width: 24px;
+            margin-right: 12px;
+            text-align: center;
+        }
+
+        .attachment-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* 底部导航栏样式优化 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+
+        /* 聊天头部样式 */
+        .chat-header.group-chat .group-indicator {
+            color: var(--primary-color);
+        }
+
+        .chat-header.private-chat .online-badge {
+            width: 8px;
+            height: 8px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* 活动状态标签 */
+        .activity-status-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .activity-status-badge.in-progress {
+            background-color: #4caf50;
+        }
+
+        .activity-status-badge.completed {
+            background-color: #9e9e9e;
+        }
+
+        .activity-status-badge.upcoming {
+            background-color: #f57c00;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 聊天室标题 - 群聊版本 -->
+    <div class="bg-white p-4 flex justify-between items-center border-b chat-header group-chat" id="group-chat-header">
+        <a href="chat-list.html" class="text-gray-500">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="text-center">
+            <div class="flex items-center justify-center">
+                <h1 class="text-lg font-bold">创新创业大赛交流群</h1>
+                <div class="activity-status-badge in-progress ml-2" id="activity-status-badge">进行中</div>
+            </div>
+            <div class="flex items-center justify-center text-xs text-gray-500">
+                <span class="group-indicator"><i class="fas fa-users mr-1"></i>活动聊天室</span>
+                <span class="mx-1">•</span>
+                <span>42人在线</span>
+            </div>
+        </div>
+        <div class="flex">
+            <a href="#" class="text-gray-500">
+                <i class="fas fa-ellipsis-v"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- 聊天室标题 - 私聊版本 -->
+    <div class="bg-white p-4 flex justify-between items-center border-b chat-header private-chat"
+        id="private-chat-header" style="display: none;">
+        <a href="chat-list.html" class="text-gray-500">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="text-center">
+            <div class="flex items-center justify-center">
+                <h1 class="text-lg font-bold">张教授</h1>
+                <div class="online-badge ml-2"></div>
+            </div>
+            <div class="text-xs text-gray-500">3分钟前在线</div>
+        </div>
+        <div class="flex">
+            <a href="#" class="text-gray-500 mr-5">
+                <i class="fas fa-phone"></i>
+            </a>
+            <a href="#" class="text-gray-500">
+                <i class="fas fa-ellipsis-v"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- 聊天内容 -->
+    <div class="chat-container">
+        <!-- 群聊消息内容 -->
+        <div class="chat-messages" id="group-chat-messages">
+            <!-- 系统消息 -->
+            <div class="text-center text-xs text-gray-500 my-4">
+                2025年3月16日 14:25
+            </div>
+
+            <!-- 其他人消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">张教授</div>
+                    <div class="message-content">
+                        大家好，欢迎加入2025年全国大学生创新创业大赛校内选拔赛交流群。请大家在这里自由交流，有任何问题也可以在群里提出。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他人消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="用户头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">李同学</div>
+                    <div class="message-content">
+                        老师好！请问比赛的商业计划书有没有具体的格式要求？
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他人消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">张教授</div>
+                    <div class="message-content">
+                        商业计划书的模板已经上传到活动详情页，大家可以下载参考。基本要包括项目概述、市场分析、产品/服务介绍、营销策略、财务预测等内容。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自己的消息 -->
+            <div class="message message-self">
+                <div class="message-content">
+                    请问路演展示的时间限制是多久？
+                </div>
+            </div>
+
+            <!-- 其他人消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">张教授</div>
+                    <div class="message-content">
+                        路演展示时间为每队10分钟，其中包括8分钟的项目展示和2分钟的评委提问。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他人消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">王同学</div>
+                    <div class="message-content">
+                        有没有同学想一起组队参赛的？我是计算机专业的，擅长技术开发，正在寻找有营销和设计背景的队友。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他人消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="用户头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">张同学</div>
+                    <div class="message-content">
+                        我是市场营销专业的，对数据分析和市场调研比较擅长，有兴趣可以私聊我。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 系统消息 -->
+            <div class="text-center text-xs text-gray-500 my-4">
+                2025年3月16日 15:10
+            </div>
+
+            <!-- 其他人消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">赵同学</div>
+                    <div class="message-content">
+                        请问比赛当天需要准备实物展示吗？还是只需要PPT就可以？
+                    </div>
+                </div>
+            </div>
+
+            <!-- 其他人消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div>
+                    <div class="text-xs text-gray-500 mb-1">张教授</div>
+                    <div class="message-content">
+                        如果有实物原型或者产品样品，建议带上进行展示，这样会更有说服力。但不是必须的，PPT展示也可以。
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自己的消息 -->
+            <div class="message message-self">
+                <div class="message-content">
+                    我们团队正在做一个智能家居的项目，想问一下评委会更看重技术创新还是商业模式？
+                </div>
+            </div>
+        </div>
+
+        <!-- 私聊消息内容 -->
+        <div class="chat-messages" id="private-chat-messages" style="display: none;">
+            <!-- 系统消息 -->
+            <div class="text-center text-xs text-gray-500 my-4">
+                2025年3月15日 09:30
+            </div>
+
+            <!-- 私聊开始提示 -->
+            <div class="text-center text-xs text-blue-500 bg-blue-50 py-2 rounded-full my-4 mx-auto w-4/5">
+                你已添加了张教授，现在可以开始聊天
+            </div>
+
+            <!-- 对方消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="张教授头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div class="message-content">
+                    同学你好，很高兴收到你的消息。有什么我可以帮助你的吗？
+                </div>
+            </div>
+
+            <!-- 自己的消息 -->
+            <div class="message message-self">
+                <div class="message-content">
+                    张教授您好！我是计算机科学与技术专业的大三学生，对您主持的创新创业项目很感兴趣。我想了解一下如何才能参与到项目中？
+                </div>
+            </div>
+
+            <!-- 对方消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="张教授头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div class="message-content">
+                    很高兴你对我们的项目感兴趣！目前我们正在组建校园智能助手项目的团队，主要基于大模型开发一套适合大学生使用的AI助手系统。
+                </div>
+            </div>
+
+            <!-- 对方消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="张教授头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div class="message-content">
+                    你有什么方面的特长呢？我们目前特别需要有算法或前端开发经验的同学。
+                </div>
+            </div>
+
+            <!-- 自己的消息 -->
+            <div class="message message-self">
+                <div class="message-content">
+                    我在前端开发方面有一些经验，做过几个基于React的项目，也对人工智能和大模型应用比较感兴趣。我可以负责系统的前端界面开发。
+                </div>
+            </div>
+
+            <!-- 系统消息 -->
+            <div class="text-center text-xs text-gray-500 my-4">
+                今天 14:05
+            </div>
+
+            <!-- 对方消息 -->
+            <div class="message message-other">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="张教授头像"
+                    class="w-8 h-8 rounded-full mr-2">
+                <div class="message-content">
+                    你的项目计划书我已经看过了，有几点建议想和你详细讨论一下，有空来我办公室一趟吗？明天下午3点以后我都有空。
+                </div>
+            </div>
+
+            <!-- 自己的消息 -->
+            <div class="message message-self">
+                <div class="message-content">
+                    好的，我明天下午3:30去您办公室，谢谢您的指导！
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 聊天输入框 - 现在在chat-container外部，固定在底部 -->
+    <div class="chat-input">
+        <!-- 首次聊天模板 -->
+        <div id="first-chat-template" class="hidden">
+            <div class="user-profile">
+                <div class="flex items-center">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像" class="user-avatar">
+                    <div class="user-info">
+                        <div class="user-name">张教授</div>
+                        <div class="user-role">创新创业大赛指导老师</div>
+                    </div>
+                </div>
+            </div>
+            <div class="quick-replies">
+                <button class="quick-reply-btn">
+                    您好，我是计算机系的学生
+                </button>
+                <button class="quick-reply-btn">
+                    老师好，我想请教一下比赛相关的问题
+                </button>
+                <button class="quick-reply-btn">
+                    您好，我对您的项目很感兴趣
+                </button>
+                <button class="quick-reply-btn">
+                    老师，我想加入您的项目组
+                </button>
+            </div>
+        </div>
+        <button class="attachment-button" id="attachment-btn">
+            <i class="fas fa-plus"></i>
+        </button>
+        <input type="text" class="chat-input-field" placeholder="输入消息...">
+        <button class="send-button">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+
+    <!-- 附件菜单 -->
+    <div class="attachment-menu" id="attachment-menu">
+        <div class="attachment-option">
+            <i class="fas fa-image text-blue-500"></i>
+            <span>图片</span>
+        </div>
+        <div class="attachment-option">
+            <i class="fas fa-camera text-green-500"></i>
+            <span>拍照</span>
+        </div>
+        <div class="attachment-option">
+            <i class="fas fa-file text-orange-500"></i>
+            <span>文件</span>
+        </div>
+        <div class="attachment-option">
+            <i class="fas fa-map-marker-alt text-red-500"></i>
+            <span>位置</span>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item">
+            <i class="fas fa-compass tab-icon"></i>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item active">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 获取URL参数判断聊天类型和活动状态
+            const urlParams = new URLSearchParams(window.location.search);
+            const chatType = urlParams.get('type') || 'group'; // 默认为群聊
+            const activityStatus = urlParams.get('status') || 'in-progress'; // 默认为进行中
+            const isFirstChat = urlParams.get('once') === 'true'; // 是否为首次聊天
+
+            const groupChatHeader = document.getElementById('group-chat-header');
+            const privateChatHeader = document.getElementById('private-chat-header');
+            const groupChatMessages = document.getElementById('group-chat-messages');
+            const privateChatMessages = document.getElementById('private-chat-messages');
+            const activityStatusBadge = document.getElementById('activity-status-badge');
+            const firstChatTemplate = document.getElementById('first-chat-template');
+
+            // 设置活动状态标签
+            if (activityStatus === 'completed') {
+                activityStatusBadge.textContent = '已结束';
+                activityStatusBadge.classList.remove('in-progress', 'upcoming');
+                activityStatusBadge.classList.add('completed');
+            } else if (activityStatus === 'upcoming') {
+                activityStatusBadge.textContent = '即将开始';
+                activityStatusBadge.classList.remove('in-progress', 'completed');
+                activityStatusBadge.classList.add('upcoming');
+            } else {
+                activityStatusBadge.textContent = '进行中';
+                activityStatusBadge.classList.remove('completed', 'upcoming');
+                activityStatusBadge.classList.add('in-progress');
+            }
+
+            // 根据聊天类型显示不同的头部和消息内容
+            if (chatType === 'private') {
+                // 切换为私聊模式
+                groupChatHeader.style.display = 'none';
+                privateChatHeader.style.display = 'flex';
+                groupChatMessages.style.display = 'none';
+                privateChatMessages.style.display = 'block';
+                document.title = "张教授 - 聊天";
+
+                // 如果是首次聊天，显示聊天模板
+                if (isFirstChat) {
+                    firstChatTemplate.classList.remove('hidden');
+                    // 清空私聊消息内容
+                    privateChatMessages.innerHTML = `
+                        <div class="text-center text-xs text-gray-500 my-4">
+                            ${new Date().toLocaleDateString()}
+                        </div>
+                        <div class="text-center text-xs text-blue-500 bg-blue-50 py-2 rounded-full my-4 mx-auto w-4/5">
+                            你已添加了张教授，现在可以开始聊天
+                        </div>
+                    `;
+                }
+            } else {
+                // 切换为群聊模式
+                groupChatHeader.style.display = 'flex';
+                privateChatHeader.style.display = 'none';
+                groupChatMessages.style.display = 'block';
+                privateChatMessages.style.display = 'none';
+                document.title = "创新创业大赛交流群";
+            }
+
+            // 快速回复按钮点击事件
+            const quickReplyButtons = document.querySelectorAll('.quick-reply-btn');
+            quickReplyButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const message = this.textContent;
+                    const chatInput = document.querySelector('.chat-input-field');
+                    chatInput.value = message;
+                    firstChatTemplate.classList.add('hidden');
+                });
+            });
+
+            // 附件按钮功能
+            const attachmentBtn = document.getElementById('attachment-btn');
+            const attachmentMenu = document.getElementById('attachment-menu');
+
+            // 点击附件按钮显示/隐藏附件菜单
+            attachmentBtn.addEventListener('click', function () {
+                attachmentMenu.classList.toggle('active');
+            });
+
+            // 点击页面其他地方关闭附件菜单
+            document.addEventListener('click', function (e) {
+                if (!attachmentBtn.contains(e.target) && !attachmentMenu.contains(e.target)) {
+                    attachmentMenu.classList.remove('active');
+                }
+            });
+
+            // 点击附件选项
+            const attachmentOptions = document.querySelectorAll('.attachment-option');
+            attachmentOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    // 这里可以添加处理不同类型附件的逻辑
+                    const optionType = this.querySelector('span').textContent;
+                    alert(`选择了${optionType}附件`);
+                    attachmentMenu.classList.remove('active');
+                });
+            });
+
+            // 自动滚动到最新消息
+            const chatMessages = document.querySelector('.chat-messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+    </script>
+</body>
+
+</html>

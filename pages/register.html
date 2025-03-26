@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册账号</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 注册页面内容 -->
+    <div class="px-6 py-8">
+        <div class="flex justify-center mb-8">
+            <img src="../images/logo-blue.svg" alt="创新创客" class="w-16 h-16">
+        </div>
+
+        <h1 class="text-2xl font-bold text-center mb-2">创建账号</h1>
+        <p class="text-center text-gray-500 mb-8">开始您的创新创业之旅</p>
+
+        <form class="mb-8">
+            <!-- 学号/工号 -->
+            <div class="form-group mb-6">
+                <label for="studentId" class="block text-sm font-medium text-gray-700 mb-2">学号/工号</label>
+                <div class="relative">
+                    <i class="fas fa-id-card absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="studentId"
+                        class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        placeholder="请输入您的学号/工号">
+                </div>
+            </div>
+
+            <!-- 姓名 -->
+            <div class="form-group mb-6">
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">姓名</label>
+                <div class="relative">
+                    <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="name"
+                        class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        placeholder="请输入您的姓名">
+                </div>
+            </div>
+
+            <!-- 密码 -->
+            <div class="form-group mb-6">
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">密码</label>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="password" id="password"
+                        class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        placeholder="请设置您的密码">
+                    <i
+                        class="fas fa-eye absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">密码须包含字母和数字，8-20位</div>
+            </div>
+
+            <!-- 确认密码 -->
+            <div class="form-group mb-6">
+                <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">确认密码</label>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="password" id="confirmPassword"
+                        class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                        placeholder="请再次输入密码">
+                    <i
+                        class="fas fa-eye absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"></i>
+                </div>
+            </div>
+
+            <!-- 注册按钮 -->
+            <button type="submit" class="btn btn-primary w-full py-3 text-base">
+                注册账号
+            </button>
+        </form>
+
+        <!-- 已有账号 -->
+        <div class="text-center">
+            <span class="text-gray-500">已有账号？</span>
+            <a href="login.html" class="text-blue-500 font-medium">立即登录</a>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="mt-8 text-center text-xs text-gray-400">
+            <p>注册即表示您同意我们的《服务条款》和《隐私政策》</p>
+        </div>
+    </div>
+
+    <script>
+        // 密码可见性切换
+        document.querySelectorAll('.fa-eye').forEach(icon => {
+            icon.addEventListener('click', function () {
+                const input = this.parentNode.querySelector('input');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                }
+            });
+        });
+
+        // 单选按钮切换
+        document.querySelectorAll('.bg-white.rounded-lg').forEach(box => {
+            box.addEventListener('click', function () {
+                // 重置所有选项
+                document.querySelectorAll('.bg-white.rounded-lg').forEach(b => {
+                    const circle = b.querySelector('.w-5.h-5');
+                    const inner = b.querySelector('.w-3.h-3');
+                    circle.classList.remove('border-blue-500');
+                    circle.classList.add('border-gray-300');
+                    inner.classList.remove('bg-blue-500');
+                });
+
+                // 设置当前选项
+                const circle = this.querySelector('.w-5.h-5');
+                const inner = this.querySelector('.w-3.h-3');
+                circle.classList.remove('border-gray-300');
+                circle.classList.add('border-blue-500');
+                inner.classList.add('bg-blue-500');
+            });
+        });
+
+        // 表单提交
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const studentId = document.getElementById('studentId').value;
+            const name = document.getElementById('name').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // 简单验证
+            if (!studentId || !name || !password || !confirmPassword) {
+                alert('请填写所有字段');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('两次密码输入不一致');
+                return;
+            }
+
+            // 密码强度验证
+            if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/.test(password)) {
+                alert('密码必须包含字母和数字，长度为8-20位');
+                return;
+            }
+
+            // 这里应该有注册逻辑，比如API调用
+            // 暂时直接跳转到首页
+            window.location.href = 'home.html';
+        });
+    </script>
+</body>
+
+</html>

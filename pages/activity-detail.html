@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* 添加固定按钮样式 */
+        .fixed-button-container {
+            position: fixed;
+            bottom: 70px;
+            /* 底部导航栏高度 */
+            left: 0;
+            right: 0;
+            padding: 10px 16px;
+            background-color: white;
+            border-top: 1px solid var(--medium-gray);
+            z-index: 99;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 为内容区域添加底部间距，避免被固定按钮遮挡 */
+        .activity-details {
+            padding: 20px;
+            padding-bottom: 130px;
+            background-color: white;
+            margin-top: -30px;
+            border-radius: 30px 30px 0 0;
+            position: relative;
+            box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .activity-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+
+        .activity-description {
+            margin: 20px 0;
+            line-height: 1.6;
+            font-size: 15px;
+            color: var(--text-color);
+        }
+
+        .activity-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: var(--light-blue);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            border: 1px solid var(--medium-blue);
+        }
+
+        .activity-stats {
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(135deg, var(--light-blue), white);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--medium-blue);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--dark-gray);
+            margin-top: 4px;
+        }
+
+        .related-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--medium-gray);
+            transition: transform 0.3s ease;
+        }
+
+        .related-card:hover {
+            transform: translateY(-3px);
+        }
+
+        /* 抽屉组件样式 */
+        .signup-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: none;
+        }
+
+        .signup-drawer.active {
+            display: block;
+        }
+
+        .signup-drawer-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+        }
+
+        .signup-drawer-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            max-height: 90vh;
+            background-color: white;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .signup-drawer.active .signup-drawer-content {
+            transform: translateY(0);
+        }
+
+        .signup-drawer-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-drawer-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            transition: all 0.2s ease;
+        }
+
+        .close-drawer-btn:hover {
+            background-color: var(--medium-gray);
+        }
+
+        .signup-drawer-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .signup-drawer-footer {
+            padding: 16px;
+            border-top: 1px solid var(--medium-gray);
+            display: flex;
+            gap: 10px;
+        }
+
+        /* 表单样式 */
+        .form-section {
+            margin-bottom: 24px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-color);
+            position: relative;
+            padding-left: 12px;
+        }
+
+        .form-section-title:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+
+        .form-textarea {
+            resize: none;
+        }
+
+        .team-member-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .add-member-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: var(--light-blue);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .add-member-btn:hover {
+            background-color: var(--medium-blue);
+            color: white;
+        }
+
+        /* 底部导航栏样式优化 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+
+        /* 给内容区域添加底部padding，防止被底部导航栏遮挡 */
+        .detail-content {
+            padding-bottom: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 活动详情 -->
+    <div class="activity-header">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            alt="创新创业大赛" class="activity-image">
+        <a href="home.html" class="activity-back">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <div class="activity-details">
+        <!-- 活动标签 -->
+        <div class="mb-3">
+            <span class="activity-tag"><i class="fas fa-trophy mr-1"></i> 创新大赛</span>
+            <span class="activity-tag"><i class="fas fa-users mr-1"></i> 团队赛</span>
+            <span class="activity-tag"><i class="fas fa-certificate mr-1"></i> 官方认证</span>
+        </div>
+
+        <h1 class="activity-title">2025年全国大学生创新创业大赛校内选拔赛</h1>
+
+        <div class="activity-meta">
+            <div><i class="far fa-calendar-alt mr-1"></i> 2025-1-15 14:00</div>
+            <div><i class="far fa-map-marker-alt mr-1"></i> 创新创业学院报告厅</div>
+        </div>
+
+        <div class="activity-stats">
+            <div class="stat-item">
+                <div class="stat-value">42</div>
+                <div class="stat-label">已报名</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">100</div>
+                <div class="stat-label">总名额</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">11-10</div>
+                <div class="stat-label">报名截止</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3h</div>
+                <div class="stat-label">活动时长</div>
+            </div>
+        </div>
+
+        <!-- 创新元素 - 活动亮点 -->
+        <div class="innovation-card mb-4">
+            <div class="innovation-title">
+                <i class="fas fa-lightbulb"></i>
+                <span>活动亮点</span>
+            </div>
+            <div class="innovation-content">
+                参与本次大赛，你将获得与行业导师面对面交流的机会，优秀项目有机会获得创业基金支持！
+            </div>
+        </div>
+
+        <p class="activity-description">
+            为了激发大学生创新创业热情，提升创新创业能力，我校将举办2025年全国大学生创新创业大赛校内选拔赛。本次比赛面向全校学生，旨在选拔优秀项目参加全国大赛。
+            <br><br>
+            <strong>比赛内容：</strong><br>
+            1. 商业计划书评审<br>
+            2. 项目路演展示<br>
+            3. 专家提问环节
+            <br><br>
+            <strong>奖项设置：</strong><br>
+            一等奖：1名，奖金5000元<br>
+            二等奖：3名，奖金3000元<br>
+            三等奖：5名，奖金1000元<br>
+            优秀奖：10名，奖金500元
+            <br><br>
+            获奖项目将有机会代表学校参加全国大学生创新创业大赛，并获得创业导师一对一指导。
+        </p>
+
+        <div class="activity-organizer">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="组织者头像" class="organizer-avatar">
+            <div class="organizer-info">
+                <div class="organizer-name">张教授</div>
+                <div class="organizer-role">创新创业学院</div>
+            </div>
+            <button class="btn btn-outline px-3 py-1 text-sm">
+                <i class="fas fa-envelope mr-1"></i> 联系
+            </button>
+        </div>
+
+        <div class="flex gap-4 mb-4">
+            <button class="btn btn-outline flex-1">
+                <i class="far fa-heart mr-1"></i> 点赞
+            </button>
+            <button class="btn btn-outline flex-1">
+                <i class="fas fa-share-alt mr-1"></i> 分享
+            </button>
+        </div>
+
+        <div class="mt-6">
+            <h3 class="font-bold text-lg mb-3">相关活动</h3>
+            <div class="flex overflow-x-auto gap-3 pb-4">
+                <div class="flex-shrink-0 w-40 related-card">
+                    <img src="https://images.unsplash.com/photo-1559223607-a43c990c692c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
+                        alt="相关活动" class="w-full h-24 object-cover">
+                    <div class="p-2">
+                        <div class="text-xs font-medium">AI时代的创业机遇与挑战</div>
+                        <div class="text-xs text-gray-500 mt-1">11-20 19:00</div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-40 related-card">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
+                        alt="相关活动" class="w-full h-24 object-cover">
+                    <div class="p-2">
+                        <div class="text-xs font-medium">一天搞定商业计划书</div>
+                        <div class="text-xs text-gray-500 mt-1">11-25 09:00</div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-40 related-card">
+                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
+                        alt="相关活动" class="w-full h-24 object-cover">
+                    <div class="p-2">
+                        <div class="text-xs font-medium">创业项目融资指南</div>
+                        <div class="text-xs text-gray-500 mt-1">12-05 14:00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 固定在底部的报名按钮 -->
+    <div class="fixed-button-container">
+        <button class="btn btn-primary btn-block" id="signup-btn">
+            <i class="fas fa-check-circle mr-2"></i> 立即报名
+        </button>
+    </div>
+
+    <!-- 报名抽屉组件 -->
+    <div class="signup-drawer" id="signup-drawer">
+        <div class="signup-drawer-overlay"></div>
+        <div class="signup-drawer-content">
+            <div class="signup-drawer-header">
+                <h3 class="font-bold text-lg">活动报名</h3>
+                <button class="close-drawer-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="signup-drawer-body">
+                <form id="signup-form">
+                    <!-- 基本信息 -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">基本信息</h4>
+
+                        <div class="form-group">
+                            <label class="form-label">姓名 <span class="text-red-500">*</span></label>
+                            <input type="text" class="form-input" placeholder="请输入姓名" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">学号 <span class="text-red-500">*</span></label>
+                            <input type="text" class="form-input" placeholder="请输入学号" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">手机号 <span class="text-red-500">*</span></label>
+                            <input type="tel" class="form-input" placeholder="请输入手机号" required>
+                        </div>
+                    </div>
+
+                    <!-- 附加信息 -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">附加信息</h4>
+
+                        <div class="form-group">
+                            <label class="form-label">学院</label>
+                            <select class="form-select">
+                                <option value="">请选择学院</option>
+                                <option value="计算机学院">计算机学院</option>
+                                <option value="商学院">商学院</option>
+                                <option value="设计学院">设计学院</option>
+                                <option value="电子工程学院">电子工程学院</option>
+                                <option value="其他学院">其他学院</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">专业</label>
+                            <input type="text" class="form-input" placeholder="请输入专业">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">参赛经历</label>
+                            <textarea class="form-textarea" placeholder="请简要描述您的参赛经历（选填）" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 团队信息 -->
+                    <div class="form-section">
+                        <h4 class="form-section-title">团队信息</h4>
+
+                        <div class="form-group">
+                            <label class="form-label">是否有团队</label>
+                            <div class="flex items-center">
+                                <label class="flex items-center mr-4">
+                                    <input type="radio" name="has_team" class="mr-1" id="has-team-yes"> 是
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="has_team" class="mr-1" checked id="has-team-no"> 否
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="team-info-fields" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label">团队名称</label>
+                                <input type="text" class="form-input" placeholder="请输入团队名称">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">团队成员</label>
+                                <div class="team-members">
+                                    <div class="team-member-item">
+                                        <input type="text" class="form-input" placeholder="成员姓名">
+                                        <button type="button" class="add-member-btn">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="signup-drawer-footer">
+                <button class="btn btn-outline flex-1 cancel-btn">取消</button>
+                <button class="btn btn-primary flex-1 submit-btn">提交报名</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item">
+            <i class="fas fa-compass tab-icon"></i>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        // 添加到现有的脚本中
+        document.addEventListener('DOMContentLoaded', function () {
+            // ... existing code ...
+
+            // 报名抽屉功能
+            const signupBtn = document.getElementById('signup-btn');
+            const signupDrawer = document.getElementById('signup-drawer');
+            const closeDrawerBtn = document.querySelector('.close-drawer-btn');
+            const cancelBtn = document.querySelector('.cancel-btn');
+            const submitBtn = document.querySelector('.submit-btn');
+            const overlay = document.querySelector('.signup-drawer-overlay');
+
+            // 打开抽屉
+            signupBtn.addEventListener('click', function () {
+                signupDrawer.classList.add('active');
+                document.body.style.overflow = 'hidden'; // 防止背景滚动
+            });
+
+            // 关闭抽屉的多种方式
+            function closeDrawer() {
+                signupDrawer.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            closeDrawerBtn.addEventListener('click', closeDrawer);
+            cancelBtn.addEventListener('click', closeDrawer);
+            overlay.addEventListener('click', closeDrawer);
+
+            // 提交表单
+            submitBtn.addEventListener('click', function () {
+                // 这里可以添加表单验证逻辑
+                alert('报名成功！');
+                closeDrawer();
+            });
+
+            // 团队信息显示/隐藏
+            const hasTeamYes = document.getElementById('has-team-yes');
+            const hasTeamNo = document.getElementById('has-team-no');
+            const teamInfoFields = document.querySelector('.team-info-fields');
+
+            hasTeamYes.addEventListener('change', function () {
+                if (this.checked) {
+                    teamInfoFields.style.display = 'block';
+                }
+            });
+
+            hasTeamNo.addEventListener('change', function () {
+                if (this.checked) {
+                    teamInfoFields.style.display = 'none';
+                }
+            });
+
+            // 添加团队成员
+            const addMemberBtn = document.querySelector('.add-member-btn');
+            const teamMembers = document.querySelector('.team-members');
+
+            addMemberBtn.addEventListener('click', function () {
+                const memberItem = document.createElement('div');
+                memberItem.className = 'team-member-item';
+                memberItem.innerHTML = `
+                <input type="text" class="form-input" placeholder="成员姓名">
+                <button type="button" class="remove-member-btn">
+                    <i class="fas fa-minus"></i>
+                </button>
+            `;
+                teamMembers.appendChild(memberItem);
+
+                // 添加删除成员的事件
+                const removeBtn = memberItem.querySelector('.remove-member-btn');
+                removeBtn.addEventListener('click', function () {
+                    teamMembers.removeChild(memberItem);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

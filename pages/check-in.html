@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动签到</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .camera-container {
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #000;
+            margin-bottom: 20px;
+        }
+
+        .camera-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .scan-area {
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scan-line {
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background-color: var(--primary-color);
+            top: 50%;
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        .scan-corners {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: var(--primary-color);
+            border-width: 4px;
+        }
+
+        .top-left {
+            top: -2px;
+            left: -2px;
+            border-top: 4px solid;
+            border-left: 4px solid;
+            border-top-left-radius: 8px;
+        }
+
+        .top-right {
+            top: -2px;
+            right: -2px;
+            border-top: 4px solid;
+            border-right: 4px solid;
+            border-top-right-radius: 8px;
+        }
+
+        .bottom-left {
+            bottom: -2px;
+            left: -2px;
+            border-bottom: 4px solid;
+            border-left: 4px solid;
+            border-bottom-left-radius: 8px;
+        }
+
+        .bottom-right {
+            bottom: -2px;
+            right: -2px;
+            border-bottom: 4px solid;
+            border-right: 4px solid;
+            border-bottom-right-radius: 8px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 页面标题 -->
+    <div class="bg-white p-4 flex justify-between items-center border-b">
+        <a href="activity-detail.html" class="text-gray-500">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="text-lg font-bold">活动签到</h1>
+        <div class="w-5"></div> <!-- 占位元素，保持标题居中 -->
+    </div>
+
+    <!-- 签到内容 -->
+    <div class="checkin-container">
+        <div class="checkin-info">
+            <h2 class="checkin-title">2025年全国大学生创新创业大赛校内选拔赛</h2>
+            <p class="checkin-subtitle">2025-3-15 14:00 | 创新创业学院报告厅</p>
+        </div>
+
+        <!-- 扫码区域 -->
+        <div class="camera-container">
+            <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=750&q=80"
+                alt="相机预览" class="w-full h-full object-cover">
+            <div class="camera-overlay">
+                <div class="scan-area">
+                    <div class="scan-line"></div>
+                    <div class="scan-corners top-left"></div>
+                    <div class="scan-corners top-right"></div>
+                    <div class="scan-corners bottom-left"></div>
+                    <div class="scan-corners bottom-right"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-6">
+            <p class="text-sm text-gray-600 mb-1">请扫描老师提供的签到二维码</p>
+            <p class="text-xs text-gray-500">将二维码对准扫描框内</p>
+        </div>
+
+        <!-- 已签到状态 - 默认隐藏，扫码成功后显示 -->
+        <div class="w-full bg-white rounded-lg p-4 mb-4">
+            <div class="flex justify-between items-center mb-2">
+                <div class="font-medium">签到状态</div>
+                <div class="text-green-600 font-medium">已签到</div>
+            </div>
+            <div class="text-sm text-gray-500">
+                签到时间: 2025-3-15 13:45
+            </div>
+        </div>
+
+        <div class="w-full bg-white rounded-lg p-4">
+            <div class="font-medium mb-2">活动须知</div>
+            <ul class="text-sm text-gray-600 space-y-2">
+                <li><i class="fas fa-check-circle text-green-500 mr-2"></i> 请提前15分钟到场</li>
+                <li><i class="fas fa-check-circle text-green-500 mr-2"></i> 请携带学生证或身份证</li>
+                <li><i class="fas fa-check-circle text-green-500 mr-2"></i> 现场有免费茶点提供</li>
+                <li><i class="fas fa-check-circle text-green-500 mr-2"></i> 活动结束后可获得参与证书</li>
+            </ul>
+        </div>
+
+        <button class="btn btn-primary w-full mt-6">
+            <i class="fas fa-camera mr-1"></i> 重新扫码
+        </button>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+</body>
+
+</html>

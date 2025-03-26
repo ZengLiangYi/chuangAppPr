@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邀请码验证</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 邀请码验证页面内容 -->
+    <div class="px-6 py-8">
+        <div class="flex justify-center mb-8">
+            <img src="../images/logo-blue.svg" alt="创新创客" class="w-16 h-16">
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h1 class="text-2xl font-bold text-center mb-2">欢迎访问</h1>
+            <p class="text-center text-gray-500 mb-6">请输入您的邀请码</p>
+
+            <!-- 邀请码输入 -->
+            <div class="form-group mb-6">
+                <div class="relative">
+                    <i class="fas fa-ticket-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="inviteCode"
+                        class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors text-center text-lg tracking-widest"
+                        placeholder="请输入6位邀请码">
+                </div>
+            </div>
+
+            <!-- 倒计时显示 -->
+            <div class="text-center mb-6">
+                <div class="text-sm text-gray-500 mb-2">邀请码有效期</div>
+                <div id="countdown" class="text-xl font-bold text-blue-500">
+                    <span id="minutes">05</span>:<span id="seconds">00</span>
+                </div>
+            </div>
+
+            <!-- 验证按钮 -->
+            <button id="verifyBtn" class="btn btn-primary w-full py-3 text-base mb-4">
+                验证邀请码
+            </button>
+
+            <!-- 提示信息 -->
+            <div id="errorMsg" class="text-sm text-red-500 text-center hidden">
+                邀请码无效或已过期
+            </div>
+        </div>
+
+        <!-- 说明信息 -->
+        <div class="bg-blue-50 rounded-lg p-4 mb-6">
+            <h3 class="text-sm font-medium text-blue-800 mb-2">关于邀请码</h3>
+            <ul class="text-xs text-blue-600 space-y-1">
+                <li>• 邀请码有效期为5分钟</li>
+                <li>• 每个邀请码仅可使用一次</li>
+                <li>• 如需获取邀请码，请联系管理员</li>
+            </ul>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="text-center text-xs text-gray-400">
+            <p>验证即表示您同意我们的《服务条款》和《隐私政策》</p>
+        </div>
+    </div>
+
+    <script>
+        // 倒计时功能
+        let timeLeft = 300; // 5分钟 = 300秒
+        const countdownElement = document.getElementById('countdown');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const inviteInput = document.getElementById('inviteCode');
+
+        // 格式化时间
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return {
+                minutes: minutes.toString().padStart(2, '0'),
+                seconds: remainingSeconds.toString().padStart(2, '0')
+            };
+        }
+
+        // 更新倒计时显示
+        function updateCountdown() {
+            const time = formatTime(timeLeft);
+            minutesElement.textContent = time.minutes;
+            secondsElement.textContent = time.seconds;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                verifyBtn.disabled = true;
+                verifyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                errorMsg.textContent = '邀请码已过期';
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        // 倒计时定时器
+        const countdownInterval = setInterval(() => {
+            timeLeft--;
+            updateCountdown();
+        }, 1000);
+
+        // 验证邀请码
+        verifyBtn.addEventListener('click', function () {
+            const code = inviteInput.value.trim();
+
+            // 简单的验证逻辑（实际应用中应该与后端API交互）
+            if (code.length !== 6) {
+                errorMsg.textContent = '请输入6位邀请码';
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            // 模拟验证过程
+            verifyBtn.disabled = true;
+            verifyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            verifyBtn.textContent = '验证中...';
+
+            // 模拟API调用延迟
+            setTimeout(() => {
+                // 这里应该是真实的验证逻辑
+                if (code === '123456') {
+                    // 验证成功，跳转到首页
+                    window.location.href = 'home.html';
+                } else {
+                    errorMsg.textContent = '邀请码无效或已过期';
+                    errorMsg.classList.remove('hidden');
+                    verifyBtn.disabled = false;
+                    verifyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    verifyBtn.textContent = '验证邀请码';
+                }
+            }, 1000);
+        });
+
+        // 输入框格式化
+        inviteInput.addEventListener('input', function (e) {
+            // 只允许输入数字和字母
+            this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+            // 限制长度为6位
+            if (this.value.length > 6) {
+                this.value = this.value.slice(0, 6);
+            }
+        });
+    </script>
+</body>
+
+</html>

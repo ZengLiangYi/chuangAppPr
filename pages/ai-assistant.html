@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI助手 - 创新创业活动</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 顶部栏 -->
+    <div class="top-nav">
+        <a href="home.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="page-title">AI创新助手</div>
+        <div class="top-nav-actions">
+            <i class="fas fa-ellipsis-v"></i>
+        </div>
+    </div>
+
+    <!-- AI助手界面 -->
+    <div class="page-content">
+        <!-- AI助手头像和简介 -->
+        <div class="ai-profile">
+            <div class="ai-avatar-container">
+                <div class="ai-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="ai-status online"></div>
+            </div>
+            <div class="ai-info">
+                <div class="ai-name">创新创业助手</div>
+                <div class="ai-description">随时为你的创新创业提供智能支持</div>
+            </div>
+        </div>
+
+        <!-- 功能卡片区 -->
+        <!-- <div class="ai-functions">
+            <div class="section-header">
+                <div class="section-title">我能帮你</div>
+            </div>
+
+            <div class="functions-grid">
+                <div class="function-card">
+                    <div class="function-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="function-name">创意激发</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="function-name">市场分析</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="function-name">方案优化</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="function-name">团队匹配</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="function-name">融资建议</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="function-name">项目管理</div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- 聊天历史记录 -->
+        <div class="chat-history">
+            <div class="section-header">
+                <div class="section-title">最近对话</div>
+                <a href="#" class="section-more">查看全部</a>
+            </div>
+
+            <div class="history-list">
+                <div class="history-item">
+                    <div class="history-content">
+                        <div class="history-title">如何撰写一份有吸引力的商业计划书?</div>
+                        <div class="history-time">今天 10:25</div>
+                    </div>
+                    <div class="history-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="history-item">
+                    <div class="history-content">
+                        <div class="history-title">帮我分析一下我的创业项目可行性</div>
+                        <div class="history-time">昨天 15:40</div>
+                    </div>
+                    <div class="history-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                <div class="history-item">
+                    <div class="history-content">
+                        <div class="history-title">如何寻找合适的投资人</div>
+                        <div class="history-time">3天前</div>
+                    </div>
+                    <div class="history-action">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 聊天输入框 -->
+        <div class="chat-input-container">
+            <div class="chat-tools">
+                <div class="chat-tool-btn">
+                    <i class="fas fa-image"></i>
+                </div>
+                <div class="chat-tool-btn">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <div class="chat-tool-btn">
+                    <i class="fas fa-paperclip"></i>
+                </div>
+            </div>
+            <div class="chat-input-wrapper">
+                <input type="text" placeholder="输入你的问题..." class="chat-input-field">
+                <button class="chat-send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 语音动效 -->
+        <div class="voice-animation-container" style="display: none;">
+            <div class="voice-animation">
+                <div class="voice-wave"></div>
+                <div class="voice-wave"></div>
+                <div class="voice-wave"></div>
+                <div class="voice-wave"></div>
+                <div class="voice-wave"></div>
+            </div>
+            <div class="voice-text">正在聆听...</div>
+            <div class="voice-cancel">
+                <i class="fas fa-times"></i>
+                取消
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chat-list.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <style>
+        /* 顶部导航栏样式 */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background-color: white;
+            border-bottom: 1px solid var(--medium-gray);
+            position: sticky;
+            top: 44px;
+            z-index: 10;
+        }
+
+        .back-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            background-color: var(--light-gray);
+            transition: all 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: var(--medium-gray);
+        }
+
+        .page-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .top-nav-actions {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* AI助手资料样式 */
+        .ai-profile {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #ebf5fb, #d6eaf8);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-profile::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -60px;
+            right: -60px;
+            z-index: 0;
+        }
+
+        .ai-avatar-container {
+            position: relative;
+            margin-right: 15px;
+        }
+
+        .ai-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .ai-status {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            bottom: 0;
+            right: 0;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-status.online {
+            background-color: #2ecc71;
+        }
+
+        .ai-info {
+            flex: 1;
+            z-index: 1;
+        }
+
+        .ai-name {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+
+        .ai-description {
+            font-size: 14px;
+            color: #5d6d7e;
+        }
+
+        /* 功能卡片样式 */
+        .ai-functions {
+            padding: 0 16px;
+            margin-bottom: 20px;
+        }
+
+        .functions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .function-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 15px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--light-blue);
+        }
+
+        .function-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary-color);
+        }
+
+        .function-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, var(--light-blue), #d6eaf8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-size: 22px;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .function-card:hover .function-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .function-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* 聊天历史样式 */
+        .chat-history {
+            padding: 0 16px;
+            margin-bottom: 100px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .section-more {
+            font-size: 13px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .history-list {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--medium-gray);
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid var(--light-gray);
+            transition: all 0.2s ease;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-item:hover {
+            background-color: var(--light-gray);
+        }
+
+        .history-content {
+            flex: 1;
+        }
+
+        .history-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+
+        .history-time {
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+
+        .history-action {
+            color: var(--dark-gray);
+        }
+
+        /* 聊天输入框样式 */
+        .chat-input-container {
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            padding: 12px 16px;
+            background-color: white;
+            border-top: 1px solid var(--medium-gray);
+            z-index: 100;
+        }
+
+        .chat-tools {
+            display: flex;
+            margin-bottom: 10px;
+            justify-content: flex-start;
+            gap: 15px;
+        }
+
+        .chat-tool-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .chat-tool-btn:hover {
+            background-color: var(--medium-gray);
+            transform: scale(1.05);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-gray);
+            border-radius: 24px;
+            padding: 5px 15px;
+            position: relative;
+        }
+
+        .chat-input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px 0;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .chat-send-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 语音动效样式 */
+        .voice-animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-animation {
+            display: flex;
+            align-items: flex-end;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .voice-wave {
+            background: linear-gradient(to top, var(--primary-color), var(--accent-color));
+            width: 10px;
+            height: 30px;
+            margin: 0 5px;
+            border-radius: 5px;
+            animation: wave 1s infinite ease-in-out;
+        }
+
+        .voice-wave:nth-child(2) {
+            animation-delay: 0.1s;
+            height: 40px;
+        }
+
+        .voice-wave:nth-child(3) {
+            animation-delay: 0.2s;
+            height: 60px;
+        }
+
+        .voice-wave:nth-child(4) {
+            animation-delay: 0.3s;
+            height: 40px;
+        }
+
+        .voice-wave:nth-child(5) {
+            animation-delay: 0.4s;
+            height: 30px;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: scaleY(0.5);
+            }
+
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        .voice-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .voice-cancel {
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+
+    <script>
+        // 显示语音录入动效的示例
+        document.querySelector('.chat-tool-btn:nth-child(2)').addEventListener('click', function () {
+            document.querySelector('.voice-animation-container').style.display = 'flex';
+        });
+
+        // 隐藏语音录入动效
+        document.querySelector('.voice-cancel').addEventListener('click', function () {
+            document.querySelector('.voice-animation-container').style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>

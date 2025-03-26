@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实名认证</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <div class="flex items-center p-4 bg-white">
+        <a href="profile.html" class="text-gray-500">
+            <i class="fas fa-arrow-left text-lg"></i>
+        </a>
+        <h1 class="text-lg font-semibold ml-4">实名认证</h1>
+    </div>
+
+    <!-- 认证表单 -->
+    <div class="bg-white mt-3 p-4">
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold mb-2">请填写以下信息</h2>
+            <p class="text-sm text-gray-500">您的信息将被严格保密，仅用于身份验证</p>
+        </div>
+
+        <form class="space-y-4">
+            <!-- 姓名 -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">真实姓名</label>
+                <input type="text"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="请输入您的真实姓名">
+            </div>
+
+            <!-- 身份证号 -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">身份证号</label>
+                <input type="text"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="请输入18位身份证号">
+            </div>
+
+            <!-- 学生证号 -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">学生证号</label>
+                <input type="text"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="请输入您的学生证号">
+            </div>
+
+            <!-- 上传证件照片 -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">上传证件照片</label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+                    <div class="space-y-1 text-center">
+                        <i class="fas fa-camera text-gray-400 text-3xl mb-2"></i>
+                        <div class="flex text-sm text-gray-600">
+                            <label
+                                class="relative cursor-pointer rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none">
+                                <span>点击上传</span>
+                                <input type="file" class="sr-only" accept="image/*">
+                            </label>
+                            <p class="pl-1">或拖拽图片到此处</p>
+                        </div>
+                        <p class="text-xs text-gray-500">支持jpg、png格式，大小不超过5MB</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 提交按钮 -->
+            <button type="submit"
+                class="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600 transition duration-200">
+                提交认证
+            </button>
+        </form>
+
+        <!-- 认证说明 -->
+        <div class="mt-6 text-sm text-gray-500">
+            <h3 class="font-medium text-gray-700 mb-2">认证说明</h3>
+            <ul class="list-disc list-inside space-y-1">
+                <li>请确保填写的信息真实准确</li>
+                <li>证件照片需要清晰完整，不得遮挡或涂改</li>
+                <li>认证审核时间为1-3个工作日</li>
+                <li>如有疑问请联系客服</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <style>
+        /* 底部导航栏样式 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+    </style>
+</body>
+
+</html>

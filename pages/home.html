@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 创新创业活动</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 搜索栏 -->
+    <div class="search-bar">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="搜索创新创业活动">
+    </div>
+
+    <!-- 创新元素 - 灵感板块 -->
+    <div class="innovation-card">
+        <div class="innovation-title">
+            <i class="fas fa-lightbulb"></i>
+            <span>创新灵感</span>
+        </div>
+        <div class="innovation-content">
+            "创新是一个民族进步的灵魂，是国家兴旺发达的不竭动力。" 参与创新创业活动，发现你的无限可能！
+        </div>
+    </div>
+
+    <!-- 排行榜 -->
+    <div class="leaderboard-banner" onclick="window.location.href='leaderboard.html'">
+        <div class="leaderboard-content">
+            <div class="leaderboard-preview">
+                <div class="leader-item">
+                    <span class="leader-rank">1</span>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="排名1" class="leader-avatar">
+                    <span class="leader-name">张同学</span>
+                    <span class="leader-points">3680分</span>
+                </div>
+                <div class="leader-item">
+                    <span class="leader-rank">2</span>
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="排名2" class="leader-avatar">
+                    <span class="leader-name">李同学</span>
+                    <span class="leader-points">3450分</span>
+                </div>
+                <div class="leader-item">
+                    <span class="leader-rank">3</span>
+                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="排名3" class="leader-avatar">
+                    <span class="leader-name">王同学</span>
+                    <span class="leader-points">3120分</span>
+                </div>
+            </div>
+            <div class="my-rank-container">
+                <span class="my-rank">我的排名: 28</span>
+                <div class="rank-change up">
+                    <i class="fas fa-caret-up"></i>
+                    <span>3</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分类标签 -->
+    <div class="category-tabs">
+        <div class="category-tab active">全部</div>
+        <div class="category-tab">创新大赛</div>
+        <div class="category-tab">创业讲座</div>
+        <div class="category-tab">技能培训</div>
+        <div class="category-tab">项目路演</div>
+        <div class="category-tab">导师见面会</div>
+    </div>
+
+    <!-- 活动列表 -->
+    <div class="page-content">
+        <!-- 活动卡片 1 -->
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                alt="创新创业大赛" class="card-image">
+            <div class="card-content">
+                <h3 class="card-title">2025年全国大学生创新创业大赛校内选拔赛</h3>
+                <div class="text-xs text-gray-600 mb-2">
+                    <i class="far fa-calendar-alt mr-1"></i> 2025-3-15 14:00
+                    <i class="far fa-map-marker-alt ml-2 mr-1"></i> 创新创业学院报告厅
+                </div>
+                <div class="card-info">
+                    <div class="card-user">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像" class="user-avatar">
+                        <span>张教授</span>
+                    </div>
+                    <div>
+                        <i class="far fa-eye mr-1"></i> 328
+                        <i class="far fa-heart ml-2 mr-1"></i> 42
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 活动卡片 2 -->
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1559223607-a43c990c692c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                alt="AI创业讲座" class="card-image">
+            <div class="card-content">
+                <h3 class="card-title">AI时代的创业机遇与挑战 - 行业专家分享会</h3>
+                <div class="text-xs text-gray-600 mb-2">
+                    <i class="far fa-calendar-alt mr-1"></i> 2025-3-20 19:00
+                    <i class="far fa-map-marker-alt ml-2 mr-1"></i> 线上直播
+                </div>
+                <div class="card-info">
+                    <div class="card-user">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像" class="user-avatar">
+                        <span>李老师</span>
+                    </div>
+                    <div>
+                        <i class="far fa-eye mr-1"></i> 156
+                        <i class="far fa-heart ml-2 mr-1"></i> 28
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 创新元素 - 推荐活动 -->
+        <div class="section-header mt-4">
+            <div class="section-title">近期活动</div>
+            <a href="#" class="section-more">查看全部</a>
+        </div>
+
+        <div class="horizontal-scroll-container">
+            <div class="flex gap-3 py-2 overflow-x-auto px-4">
+                <div class="flex-shrink-0 w-32 bg-white rounded-lg shadow-sm border border-blue-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                        class="w-full h-20 object-cover" alt="创业沙龙">
+                    <div class="p-2">
+                        <div class="text-xs font-medium">创业沙龙</div>
+                        <div class="text-xs text-gray-500">11-30</div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-32 bg-white rounded-lg shadow-sm border border-blue-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                        class="w-full h-20 object-cover" alt="创业沙龙">
+                    <div class="p-2">
+                        <div class="text-xs font-medium">投资论坛</div>
+                        <div class="text-xs text-gray-500">12-05</div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-32 bg-white rounded-lg shadow-sm border border-blue-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                        class="w-full h-20 object-cover" alt="创业沙龙">
+                    <div class="p-2">
+                        <div class="text-xs font-medium">创客马拉松</div>
+                        <div class="text-xs text-gray-500">12-15</div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0 w-32 bg-white rounded-lg shadow-sm border border-blue-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                        class="w-full h-20 object-cover" alt="创业沙龙">
+                    <div class="p-2">
+                        <div class="text-xs font-medium">项目路演</div>
+                        <div class="text-xs text-gray-500">12-20</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 活动卡片 3 -->
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                alt="商业计划书工作坊" class="card-image">
+            <div class="card-content">
+                <h3 class="card-title">一天搞定商业计划书 - 实战工作坊</h3>
+                <div class="text-xs text-gray-600 mb-2">
+                    <i class="far fa-calendar-alt mr-1"></i> 2025-3-25 09:00
+                    <i class="far fa-map-marker-alt ml-2 mr-1"></i> 创新创业学院工作室
+                </div>
+                <div class="card-info">
+                    <div class="card-user">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="用户头像" class="user-avatar">
+                        <span>王教授</span>
+                    </div>
+                    <div>
+                        <i class="far fa-eye mr-1"></i> 89
+                        <i class="far fa-heart ml-2 mr-1"></i> 15
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 加载更多 -->
+        <div class="load-more">
+            <i class="fas fa-spinner fa-spin mr-2"></i> 加载更多
+        </div>
+
+
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item active">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chat-list.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <!-- AI助手入口 -->
+    <a href="ai-assistant.html" class="ai-assistant-btn">
+        <div class="ai-assistant-icon">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="ai-assistant-pulse"></div>
+    </a>
+
+    <style>
+        /* 给内容区域添加底部padding，防止被底部导航栏遮挡 */
+        .page-content,
+        .main-content {
+            padding-bottom: 70px;
+        }
+
+        /* AI助手入口样式 */
+        .ai-assistant-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 200px;
+            z-index: 99;
+            text-decoration: none;
+        }
+
+        .ai-assistant-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+            border: 2px solid white;
+            transition: transform 0.3s ease;
+        }
+
+        .ai-assistant-icon:hover {
+            transform: scale(1.05);
+        }
+
+        .ai-assistant-pulse {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 25px;
+            background: rgba(52, 152, 219, 0.4);
+            z-index: 1;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            70% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        /* 节标题样式 */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            margin-top: 15px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .section-more {
+            font-size: 12px;
+            color: var(--primary-color);
+        }
+
+        /* 水平滚动容器 */
+        .horizontal-scroll-container {
+            margin-bottom: 15px;
+        }
+
+        /* 排行榜横幅样式 */
+        .leaderboard-banner {
+            margin: 0 16px 20px;
+            background: linear-gradient(to right bottom, #ffffff, #f8f9fa);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--light-blue);
+        }
+
+        .leaderboard-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: url('https://cdn-icons-png.flaticon.com/512/2933/2933189.png') no-repeat;
+            background-size: contain;
+            opacity: 0.1;
+            transform: rotate(15deg) translate(10px, -20px);
+            pointer-events: none;
+        }
+
+        .leaderboard-content {
+            padding: 16px;
+        }
+
+        .leaderboard-preview {
+            margin-bottom: 12px;
+        }
+
+        .leader-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-gray);
+            transition: transform 0.2s ease;
+        }
+
+        .leader-item:hover {
+            transform: translateX(5px);
+        }
+
+        .leader-item:last-child {
+            border-bottom: none;
+        }
+
+        .leader-rank {
+            font-weight: bold;
+            font-size: 16px;
+            min-width: 24px;
+            text-align: center;
+            padding: 4px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+            width: 24px;
+        }
+
+        /* 特殊排名样式 */
+        .leader-item:nth-child(1) .leader-rank {
+            background-color: #FFD700;
+            box-shadow: 0 2px 6px rgba(255, 215, 0, 0.4);
+        }
+
+        .leader-item:nth-child(2) .leader-rank {
+            background-color: #C0C0C0;
+            box-shadow: 0 2px 6px rgba(192, 192, 192, 0.4);
+        }
+
+        .leader-item:nth-child(3) .leader-rank {
+            background-color: #CD7F32;
+            box-shadow: 0 2px 6px rgba(205, 127, 50, 0.4);
+        }
+
+        .leader-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin: 0 10px;
+            border: 2px solid var(--light-blue);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 特殊头像样式 */
+        .leader-item:nth-child(1) .leader-avatar {
+            border-color: #FFD700;
+        }
+
+        .leader-item:nth-child(2) .leader-avatar {
+            border-color: #C0C0C0;
+        }
+
+        .leader-item:nth-child(3) .leader-avatar {
+            border-color: #CD7F32;
+        }
+
+        .leader-name {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .leader-points {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 15px;
+            background: linear-gradient(to right, var(--primary-color), #38a4fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .my-rank-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to right, var(--light-blue), #e7f0fd);
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-top: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px dashed var(--primary-color);
+        }
+
+        .my-rank {
+            font-size: 15px;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .rank-change {
+            display: inline-flex;
+            align-items: center;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+
+        .rank-change.up {
+            color: white;
+            background-color: #4caf50;
+            box-shadow: 0 2px 4px rgba(76, 175, 80, 0.4);
+        }
+
+        .rank-change.down {
+            color: white;
+            background-color: #f44336;
+            box-shadow: 0 2px 4px rgba(244, 67, 54, 0.4);
+        }
+
+        .rank-change.up i {
+            font-size: 14px;
+            margin-right: 2px;
+        }
+
+        .rank-change.down i {
+            font-size: 14px;
+            margin-right: 2px;
+        }
+    </style>
+</body>
+
+</html>

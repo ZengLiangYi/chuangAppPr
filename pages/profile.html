@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 个人信息 -->
+    <div class="user-profile">
+        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="用户头像" class="profile-avatar">
+        <div class="user-level-badge">
+            <span>Lv.3</span>
+        </div>
+        <h2 class="profile-name">陈同学</h2>
+        <p class="profile-bio">计算机科学与技术 | 大三 | 对AI和创业感兴趣</p>
+
+        <!-- 双创积分和等级 -->
+        <div class="points-card">
+            <div class="points-header">
+                <div class="points-title">
+                    <i class="fas fa-award text-yellow-500"></i>
+                    <span>双创积分</span>
+                </div>
+                <div class="points-value">1280</div>
+            </div>
+            <div class="points-progress-container">
+                <div class="points-progress" style="width: 64%"></div>
+            </div>
+            <div class="points-info">
+                <div class="current-level">当前: 创客新秀</div>
+                <div class="next-level">距离下一等级: 320分</div>
+            </div>
+        </div>
+
+        <div class="flex w-full justify-around text-center mb-4 mt-4">
+            <div>
+                <div class="text-lg font-bold">8</div>
+                <div class="text-xs text-gray-500">已参与</div>
+            </div>
+            <div>
+                <div class="text-lg font-bold">3</div>
+                <div class="text-xs text-gray-500">收藏</div>
+            </div>
+            <div>
+                <div class="text-lg font-bold">12</div>
+                <div class="text-xs text-gray-500">关注</div>
+            </div>
+        </div>
+
+        <button class="btn btn-outline w-full mb-2">
+            <i class="fas fa-edit mr-1"></i> 编辑资料
+        </button>
+    </div>
+
+    <!-- 功能菜单 -->
+    <div class="bg-white mt-3 mb-3">
+        <div class="flex items-center justify-between p-4 border-b">
+            <div class="flex items-center">
+                <i class="fas fa-calendar-check text-blue-500 mr-3 text-lg"></i>
+                <span>参加活动</span>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </div>
+        <div class="flex items-center justify-between p-4 border-b">
+            <div class="flex items-center">
+                <i class="fas fa-award text-yellow-500 mr-3 text-lg"></i>
+                <span>双创积分明细</span>
+            </div>
+            <div class="flex items-center">
+                <span class="text-sm text-gray-500 mr-2">1280分</span>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+        </div>
+        <div class="flex items-center justify-between p-4 border-b">
+            <div class="flex items-center">
+                <i class="fas fa-chart-line text-red-500 mr-3 text-lg"></i>
+                <span>双创排行榜</span>
+            </div>
+            <div class="flex items-center">
+                <span class="text-sm text-gray-500 mr-2">排名: 第28名</span>
+                <div class="rank-change up">
+                    <i class="fas fa-caret-up"></i>
+                    <span>3</span>
+                </div>
+                <i class="fas fa-chevron-right text-gray-400 ml-2"></i>
+            </div>
+        </div>
+        <div class="flex items-center justify-between p-4 border-b">
+            <div class="flex items-center">
+                <i class="fas fa-trophy text-purple-500 mr-3 text-lg"></i>
+                <span>我的勋章</span>
+            </div>
+            <div class="flex items-center">
+                <span class="text-sm text-gray-500 mr-2">已获得5枚</span>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+        </div>
+        <div class="flex items-center justify-between p-4 border-b">
+            <div class="flex items-center">
+                <i class="fas fa-star text-yellow-500 mr-3 text-lg"></i>
+                <span>我的收藏</span>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </div>
+        <div class="flex items-center justify-between p-4 border-b">
+            <div class="flex items-center">
+                <i class="fas fa-id-card text-blue-500 mr-3 text-lg"></i>
+                <span>实名认证</span>
+            </div>
+            <a href="verification.html" class="flex items-center">
+                <span class="text-sm text-gray-500 mr-2">未认证</span>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </a>
+        </div>
+        <div class="flex items-center justify-between p-4">
+            <div class="flex items-center">
+                <i class="fas fa-certificate text-green-500 mr-3 text-lg"></i>
+                <span>我的荣誉</span>
+            </div>
+            <i class="fas fa-chevron-right text-gray-400"></i>
+        </div>
+        <div class="flex items-center justify-between p-4 border-t">
+            <div class="flex items-center">
+                <i class="fas fa-cog text-gray-500 mr-3 text-lg"></i>
+                <span>系统设置</span>
+            </div>
+            <a href="settings.html">
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- 已报名活动 -->
+    <div class="bg-white p-4">
+        <h3 class="font-bold text-lg mb-3">已报名活动</h3>
+
+        <!-- 活动项目 1 -->
+        <div class="flex mb-4 pb-4 border-b">
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
+                alt="活动图片" class="w-20 h-20 rounded-lg object-cover mr-3">
+            <div class="flex-1">
+                <h4 class="font-medium text-sm mb-1">2025年全国大学生创新创业大赛校内选拔赛</h4>
+                <div class="text-xs text-gray-500 mb-1">
+                    <i class="far fa-calendar-alt mr-1"></i> 2025-3-15 14:00
+                </div>
+                <div class="text-xs text-gray-500">
+                    <i class="far fa-map-marker-alt mr-1"></i> 创新创业学院报告厅
+                </div>
+                <div class="mt-1">
+                    <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">已报名</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 活动项目 2 -->
+        <div class="flex mb-4 pb-4 border-b">
+            <img src="https://images.unsplash.com/photo-1559223607-a43c990c692c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
+                alt="活动图片" class="w-20 h-20 rounded-lg object-cover mr-3">
+            <div class="flex-1">
+                <h4 class="font-medium text-sm mb-1">AI时代的创业机遇与挑战 - 行业专家分享会</h4>
+                <div class="text-xs text-gray-500 mb-1">
+                    <i class="far fa-calendar-alt mr-1"></i> 2025-3-20 19:00
+                </div>
+                <div class="text-xs text-gray-500">
+                    <i class="far fa-map-marker-alt mr-1"></i> 线上直播
+                </div>
+                <div class="mt-1">
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">待开始</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 活动项目 3 -->
+        <div class="flex">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80"
+                alt="活动图片" class="w-20 h-20 rounded-lg object-cover mr-3">
+            <div class="flex-1">
+                <h4 class="font-medium text-sm mb-1">一天搞定商业计划书 - 实战工作坊</h4>
+                <div class="text-xs text-gray-500 mb-1">
+                    <i class="far fa-calendar-alt mr-1"></i> 2025-3-25 09:00
+                </div>
+                <div class="text-xs text-gray-500">
+                    <i class="far fa-map-marker-alt mr-1"></i> 创新创业学院工作室
+                </div>
+                <div class="mt-1">
+                    <span class="text-xs bg-gray-100 text-gray-800 px-2 py-0.5 rounded">待签到</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="#" class="text-sm text-gray-500">查看更多 <i class="fas fa-chevron-right text-xs"></i></a>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item active">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <style>
+        /* 底部导航栏样式优化 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+
+        /* 给内容区域添加底部padding，防止被底部导航栏遮挡 */
+        .user-profile {
+            padding-bottom: 70px;
+        }
+
+        /* 头像和等级徽章 */
+        .user-profile {
+            position: relative;
+            background-color: white;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 12px;
+        }
+
+        .user-level-badge {
+            position: absolute;
+            top: 80px;
+            right: calc(50% - 50px);
+            background: linear-gradient(135deg, #FF9B05, #FFD27D);
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+        }
+
+        .profile-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .profile-bio {
+            font-size: 13px;
+            color: var(--dark-gray);
+            margin-bottom: 12px;
+        }
+
+        /* 双创积分卡片样式 */
+        .points-card {
+            width: 100%;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 12px;
+            padding: 16px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 14px;
+        }
+
+        .points-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .points-title {
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .points-title i {
+            margin-right: 8px;
+        }
+
+        .points-value {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .points-progress-container {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .points-progress {
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+        }
+
+        .points-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* 排行榜样式 */
+        .rank-change {
+            display: inline-flex;
+            align-items: center;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 4px;
+        }
+
+        .rank-change.up {
+            color: #4caf50;
+        }
+
+        .rank-change.down {
+            color: #f44336;
+        }
+
+        .rank-change.up i {
+            font-size: 14px;
+            margin-right: 1px;
+        }
+
+        .rank-change.down i {
+            font-size: 14px;
+            margin-right: 1px;
+        }
+    </style>
+</body>
+
+</html>

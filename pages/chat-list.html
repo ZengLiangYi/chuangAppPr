@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .chat-list {
+            background-color: white;
+        }
+
+        .chat-item {
+            display: flex;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--light-gray);
+            position: relative;
+        }
+
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 12px;
+            position: relative;
+        }
+
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .chat-group-avatar {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            margin-right: 12px;
+        }
+
+        .chat-group-avatar .primary-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            border: 2px solid white;
+            z-index: 2;
+        }
+
+        .chat-group-avatar .secondary-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            border: 2px solid white;
+            z-index: 1;
+        }
+
+        .chat-group-avatar::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            right: 0;
+            bottom: 0;
+            border: 1px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        .unread-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 18px;
+            height: 18px;
+            background-color: #f44336;
+            color: white;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
+        .online-indicator {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .chat-content {
+            flex: 1;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-color);
+        }
+
+        .chat-time {
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+
+        .chat-message {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 13px;
+            color: var(--gray);
+            max-width: calc(100vw - 120px);
+        }
+
+        .chat-item.unread .chat-message {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* 搜索栏样式优化 */
+        .search-container {
+            padding: 10px 16px;
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .search-input-container {
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input-container i {
+            color: var(--dark-gray);
+            margin-right: 8px;
+        }
+
+        .search-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        /* 分段标题 */
+        .section-header {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--dark-gray);
+            background-color: var(--light-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 底部导航栏样式优化 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+
+        /* 新建按钮 */
+        .new-chat-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            z-index: 90;
+            transition: all 0.3s ease;
+        }
+
+        .new-chat-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .new-chat-btn i {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 页面标题 -->
+    <div class="bg-white p-4 flex justify-between items-center border-b">
+        <h1 class="text-lg font-bold">聊天</h1>
+        <div class="flex">
+            <button class="text-gray-500 mr-5">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="text-gray-500">
+                <i class="fas fa-ellipsis-v"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 搜索栏 -->
+    <div class="search-container">
+        <div class="search-input-container">
+            <i class="fas fa-search"></i>
+            <input type="text" class="search-input" placeholder="搜索聊天记录">
+        </div>
+    </div>
+
+    <!-- 聊天分类 -->
+    <div class="section-header">最近聊天</div>
+
+    <!-- 聊天列表 -->
+    <div class="chat-list">
+        <!-- 创新创业大赛交流群 -->
+        <a href="chatroom.html?type=group" class="chat-item unread">
+            <div class="chat-group-avatar">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="群组头像" class="primary-avatar">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="群组头像" class="secondary-avatar">
+                <div class="unread-badge">8</div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="chat-name">创新创业大赛交流群</div>
+                    <div class="chat-time">14:25</div>
+                </div>
+                <div class="chat-message">
+                    <span class="font-semibold">张教授: </span>路演展示时间为每队10分钟，其中包括8分钟的项目展示和2分钟的评委提问。
+                </div>
+            </div>
+        </a>
+
+        <!-- 项目小组 -->
+        <a href="chatroom.html?type=group" class="chat-item">
+            <div class="chat-group-avatar">
+                <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="群组头像" class="primary-avatar">
+                <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="群组头像" class="secondary-avatar">
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="chat-name">智能校园助手项目组</div>
+                    <div class="chat-time">昨天</div>
+                </div>
+                <div class="chat-message">
+                    <span class="font-semibold">李同学: </span>明天下午3点在图书馆一楼见面讨论项目进展，请大家准时到场。
+                </div>
+            </div>
+        </a>
+
+        <!-- 导师 -->
+        <a href="chatroom.html?type=private" class="chat-item">
+            <div class="chat-avatar">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="导师头像">
+                <div class="online-indicator"></div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="chat-name">张教授</div>
+                    <div class="chat-time">昨天</div>
+                </div>
+                <div class="chat-message">
+                    你们的项目计划书我已经看过了，有几点建议想和你详细讨论一下，有空来我办公室一趟。
+                </div>
+            </div>
+        </a>
+
+        <!-- 个人聊天 -->
+        <a href="chatroom.html?type=private" class="chat-item unread">
+            <div class="chat-avatar">
+                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="用户头像">
+                <div class="unread-badge">2</div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="chat-name">王同学</div>
+                    <div class="chat-time">09:42</div>
+                </div>
+                <div class="chat-message">
+                    我在找做前端开发的同学组队参加比赛，有兴趣一起吗？
+                </div>
+            </div>
+        </a>
+
+        <!-- 个人聊天 -->
+        <a href="chatroom.html?type=private" class="chat-item">
+            <div class="chat-avatar">
+                <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="用户头像">
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="chat-name">李同学</div>
+                    <div class="chat-time">周一</div>
+                </div>
+                <div class="chat-message">
+                    你好，我看到你在找合作伙伴，我是对UI设计感兴趣的同学，不知道你们项目还需要设计师吗？
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 第二个聊天分类 -->
+    <div class="section-header">导师联系人</div>
+
+    <!-- 导师联系人列表 -->
+    <div class="chat-list">
+        <a href="chatroom.html?type=private" class="chat-item">
+            <div class="chat-avatar">
+                <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="导师头像">
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="chat-name">李教授 <span class="text-xs text-blue-500">导师</span></div>
+                    <div class="chat-time">上周</div>
+                </div>
+                <div class="chat-message">
+                    下周二有一场创业路演活动，你可以带着团队来参加，会有一些投资人出席。
+                </div>
+            </div>
+        </a>
+
+        <a href="chatroom.html?type=private" class="chat-item">
+            <div class="chat-avatar">
+                <img src="https://randomuser.me/api/portraits/men/36.jpg" alt="导师头像">
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="chat-name">王教授 <span class="text-xs text-blue-500">导师</span></div>
+                    <div class="chat-time">3/10</div>
+                </div>
+                <div class="chat-message">
+                    关于你上次提到的技术问题，我查了一些资料，这里有几篇论文可能对你有帮助。
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 第三个聊天分类 -->
+    <div class="section-header">项目组</div>
+
+    <!-- 项目组列表 -->
+    <div class="chat-list">
+        <a href="chatroom.html?type=group" class="chat-item">
+            <div class="chat-group-avatar">
+                <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="群组头像" class="primary-avatar">
+                <img src="https://randomuser.me/api/portraits/men/29.jpg" alt="群组头像" class="secondary-avatar">
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="chat-name">环保科技项目组</div>
+                    <div class="chat-time">3/8</div>
+                </div>
+                <div class="chat-message">
+                    <span class="font-semibold">陈同学: </span>我们的项目已经进入决赛了！准备好迎接下一轮挑战！
+                </div>
+            </div>
+        </a>
+
+        <a href="chatroom.html?type=group" class="chat-item">
+            <div class="chat-group-avatar">
+                <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="群组头像" class="primary-avatar">
+                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="群组头像" class="secondary-avatar">
+            </div>
+            <div class="chat-content">
+                <div class="chat-header">
+                    <div class="chat-name">学习资源共享平台</div>
+                    <div class="chat-time">2/28</div>
+                </div>
+                <div class="chat-message">
+                    <span class="font-semibold">赵同学: </span>已经更新了最新的原型设计，请大家查看并提出意见。
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chat-list.html" class="tab-item active">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 这里可以添加聊天列表的交互逻辑
+        });
+    </script>
+</body>
+
+</html>

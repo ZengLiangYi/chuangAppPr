@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据分析</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        body {
+            padding-bottom: 100px;
+        }
+
+        .data-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--medium-blue);
+        }
+
+        .data-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .data-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .data-label {
+            font-size: 14px;
+            color: var(--dark-gray);
+            margin-bottom: 4px;
+        }
+
+        .data-trend-positive {
+            color: var(--success-color);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            margin-top: 6px;
+        }
+
+        .data-trend-negative {
+            color: var(--danger-color);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            margin-top: 6px;
+        }
+
+        .chart-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--medium-blue);
+        }
+
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chart-title-text {
+            display: flex;
+            align-items: center;
+        }
+
+        .chart-title-icon {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .chart-action {
+            color: var(--primary-color);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chart-action:hover {
+            color: var(--accent-color);
+            transform: translateX(2px);
+        }
+
+        .time-filter {
+            display: flex;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            overflow: hidden;
+            font-size: 12px;
+        }
+
+        .time-filter-option {
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .time-filter-option.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .activity-header {
+            background: linear-gradient(135deg, var(--light-blue), white);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .activity-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .activity-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success-color);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .activity-status i {
+            font-size: 8px;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 页面标题 -->
+    <div class="bg-white p-4 flex justify-between items-center border-b">
+        <a href="activity-management.html" class="text-gray-500">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="text-lg font-bold">数据分析</h1>
+        <div class="w-5"></div> <!-- 占位元素，保持标题居中 -->
+    </div>
+
+    <!-- 活动信息 -->
+    <div class="activity-header mx-4 mt-4">
+        <h2 class="activity-title">2025年全国大学生创新创业大赛校内选拔赛</h2>
+        <div class="flex justify-between mt-2">
+            <div class="text-sm text-gray-600">
+                <i class="far fa-calendar-alt mr-1"></i> 2025-3-15 14:00
+            </div>
+            <div class="activity-status">
+                <i class="fas fa-circle"></i> 进行中
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据概览 -->
+    <div class="grid grid-cols-2 gap-4 p-4">
+        <div class="data-card">
+            <div class="data-label">报名人数</div>
+            <div class="flex items-end">
+                <div class="data-value">42</div>
+                <div class="text-xs text-gray-500 ml-1 mb-1">/100</div>
+            </div>
+            <div class="data-trend-positive">
+                <i class="fas fa-arrow-up mr-1"></i> 较上周增长 12%
+            </div>
+        </div>
+        <div class="data-card">
+            <div class="data-label">签到人数</div>
+            <div class="flex items-end">
+                <div class="data-value">38</div>
+                <div class="text-xs text-gray-500 ml-1 mb-1">/42</div>
+            </div>
+            <div class="data-trend-positive">
+                <i class="fas fa-check-circle mr-1"></i> 签到率 90.5%
+            </div>
+        </div>
+        <div class="data-card">
+            <div class="data-label">浏览量</div>
+            <div class="data-value">328</div>
+            <div class="data-trend-positive">
+                <i class="fas fa-arrow-up mr-1"></i> 较上周增长 25%
+            </div>
+        </div>
+        <div class="data-card">
+            <div class="data-label">收藏数</div>
+            <div class="data-value">42</div>
+            <div class="data-trend-positive">
+                <i class="fas fa-arrow-up mr-1"></i> 较上周增长 8%
+            </div>
+        </div>
+    </div>
+
+    <!-- 报名趋势图 -->
+    <div class="chart-container mx-4 mb-4">
+        <div class="chart-title">
+            <div class="chart-title-text">
+                <i class="fas fa-chart-line chart-title-icon"></i>
+                <span>报名趋势</span>
+            </div>
+            <div class="time-filter">
+                <div class="time-filter-option active">7天</div>
+                <div class="time-filter-option">30天</div>
+            </div>
+        </div>
+        <div id="registration-trend" style="width: 100%; height: 200px;"></div>
+    </div>
+
+    <!-- 学院分布图 -->
+    <div class="chart-container mx-4 mb-4">
+        <div class="chart-title">
+            <div class="chart-title-text">
+                <i class="fas fa-university chart-title-icon"></i>
+                <span>学院分布</span>
+            </div>
+            <div class="chart-action">
+                查看详情 <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+        <div id="college-distribution" style="width: 100%; height: 200px;"></div>
+    </div>
+
+    <!-- 年级分布图 -->
+    <div class="chart-container mx-4 mb-20">
+        <div class="chart-title">
+            <div class="chart-title-text">
+                <i class="fas fa-graduation-cap chart-title-icon"></i>
+                <span>年级分布</span>
+            </div>
+            <div class="chart-action">
+                查看详情 <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+        <div id="grade-distribution" style="width: 100%; height: 200px;"></div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="discover.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a><a href="activity-management.html" class="tab-item active">
+            <i class="fas fa-tasks tab-icon"></i>
+            <span>管理</span>
+        </a>
+        <a href="home.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        // 初始化图表
+        document.addEventListener('DOMContentLoaded', function () {
+            // 报名趋势图
+            const registrationTrendChart = echarts.init(document.getElementById('registration-trend'));
+            const registrationTrendOption = {
+                color: ['#3498db'],
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['11-03', '11-04', '11-05', '11-06', '11-07', '11-08', '11-09'],
+                    axisLine: {
+                        lineStyle: {
+                            color: '#e9ecef'
+                        }
+                    },
+                    axisLabel: {
+                        color: '#adb5bd',
+                        fontSize: 10
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        color: '#adb5bd',
+                        fontSize: 10
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#f8f9fa'
+                        }
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b}: {c} 人',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                series: [{
+                    data: [5, 8, 12, 6, 4, 3, 4],
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 6,
+                    lineStyle: {
+                        width: 3
+                    },
+                    areaStyle: {
+                        color: {
+                            type: 'linear',
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops: [{
+                                offset: 0,
+                                color: 'rgba(52, 152, 219, 0.2)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(52, 152, 219, 0)'
+                            }]
+                        }
+                    }
+                }]
+            };
+            registrationTrendChart.setOption(registrationTrendOption);
+
+            // 学院分布图
+            const collegeDistributionChart = echarts.init(document.getElementById('college-distribution'));
+            const collegeDistributionOption = {
+                color: ['#3498db', '#5dade2', '#85c1e9', '#aed6f1', '#d6eaf8'],
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c} 人 ({d}%)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                legend: {
+                    orient: 'horizontal',
+                    bottom: 0,
+                    itemWidth: 10,
+                    itemHeight: 10,
+                    textStyle: {
+                        color: '#adb5bd',
+                        fontSize: 10
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    center: ['50%', '40%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 4,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: false
+                    },
+                    emphasis: {
+                        label: {
+                            show: false
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: [
+                        { value: 15, name: '计算机学院' },
+                        { value: 10, name: '商学院' },
+                        { value: 8, name: '设计学院' },
+                        { value: 5, name: '电子工程学院' },
+                        { value: 4, name: '其他学院' }
+                    ]
+                }]
+            };
+            collegeDistributionChart.setOption(collegeDistributionOption);
+
+            // 年级分布图
+            const gradeDistributionChart = echarts.init(document.getElementById('grade-distribution'));
+            const gradeDistributionOption = {
+                color: ['#3498db'],
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    top: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['大一', '大二', '大三', '大四', '研究生'],
+                    axisLine: {
+                        lineStyle: {
+                            color: '#e9ecef'
+                        }
+                    },
+                    axisLabel: {
+                        color: '#adb5bd',
+                        fontSize: 10
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLine: {
+                        show: false
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        color: '#adb5bd',
+                        fontSize: 10
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#f8f9fa'
+                        }
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b}: {c} 人',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                series: [{
+                    data: [5, 12, 18, 7, 0],
+                    type: 'bar',
+                    barWidth: '50%',
+                    itemStyle: {
+                        borderRadius: [4, 4, 0, 0],
+                        color: {
+                            type: 'linear',
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
+                            colorStops: [{
+                                offset: 0,
+                                color: '#3498db'
+                            }, {
+                                offset: 1,
+                                color: '#5dade2'
+                            }]
+                        }
+                    }
+                }]
+            };
+            gradeDistributionChart.setOption(gradeDistributionOption);
+
+            // 窗口大小变化时重新调整图表大小
+            window.addEventListener('resize', function () {
+                registrationTrendChart.resize();
+                collegeDistributionChart.resize();
+                gradeDistributionChart.resize();
+            });
+
+            // 时间筛选切换
+            const timeFilterOptions = document.querySelectorAll('.time-filter-option');
+            timeFilterOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    timeFilterOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    // 这里可以添加切换时间范围的逻辑
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

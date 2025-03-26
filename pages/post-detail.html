@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子详情 - 创新创业活动</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* 帖子详情页样式 */
+        .post-detail-header {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .post-image-header {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-back {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            z-index: 10;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .post-detail-content {
+            padding: 20px;
+            padding-bottom: 80px;
+            background-color: white;
+            margin-top: -30px;
+            border-radius: 30px 30px 0 0;
+            position: relative;
+            box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-detail-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-color);
+            line-height: 1.3;
+        }
+
+        .post-detail-stats {
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(135deg, var(--light-blue), white);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--medium-blue);
+        }
+
+        .post-detail-text {
+            margin: 20px 0;
+            line-height: 1.6;
+            font-size: 15px;
+            color: var(--text-color);
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: var(--light-blue);
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .post-avatar-large {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+            border: 2px solid white;
+        }
+
+        .post-author-info {
+            flex: 1;
+        }
+
+        .post-author-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+
+        /* 评论区样式 */
+        .comments-section {
+            margin-top: 30px;
+            border-top: 8px solid var(--light-gray);
+            padding-top: 20px;
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .comments-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .comment-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-blue);
+        }
+
+        .comment-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+            border: 2px solid var(--light-blue);
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .comment-action {
+            display: flex;
+            align-items: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            gap: 4px;
+        }
+
+        .comment-time {
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+
+        /* 评论输入框 */
+        .comment-input-container {
+            position: fixed;
+            bottom: 70px;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 12px 16px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 99;
+        }
+
+        .comment-input {
+            flex: 1;
+            border: 1px solid var(--medium-gray);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .comment-send-btn {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 底部导航栏样式 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 帖子详情头部 -->
+    <div class="post-detail-header">
+        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+            alt="智能校园助手项目" class="post-image-header">
+        <a href="discover.html" class="post-back">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <!-- 帖子详情内容 -->
+    <div class="post-detail-content">
+        <!-- 帖子标签 -->
+        <div class="mb-3">
+            <span class="post-tag">人工智能</span>
+            <span class="post-tag">校园应用</span>
+            <span class="post-tag">测试招募</span>
+        </div>
+
+        <h1 class="post-detail-title">智能校园助手项目正式上线测试</h1>
+
+        <div class="flex justify-between items-center text-sm text-gray-500">
+            <div><i class="far fa-calendar-alt mr-1"></i> 3天前发布</div>
+            <div><i class="far fa-eye mr-1"></i> 582人浏览</div>
+        </div>
+
+        <div class="post-detail-stats">
+            <div class="stat-item">
+                <div class="stat-value">63</div>
+                <div class="stat-label">点赞</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">27</div>
+                <div class="stat-label">评论</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">15</div>
+                <div class="stat-label">收藏</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">42</div>
+                <div class="stat-label">分享</div>
+            </div>
+        </div>
+
+        <div class="post-detail-text">
+            我们基于大语言模型开发的智能校园助手App已正式进入测试阶段！该项目旨在解决校园信息查询、学习辅导等问题。
+            <br><br>
+            <strong>项目功能：</strong><br>
+            1. 智能校园信息查询：课表、考试、活动等<br>
+            2. 学习辅导：作业辅导、资料推荐<br>
+            3. 校园服务：失物招领、二手交易<br>
+            4. 个性化推荐：基于用户兴趣的内容推送
+            <br><br>
+            我们诚邀同学们参与内测，提供宝贵意见。测试期间，将有机会获得精美礼品和实习机会！
+            <br><br>
+            <strong>参与方式：</strong><br>
+            扫描下方二维码，或直接在评论区留言"我要参与"，我们会联系你！
+        </div>
+
+        <!-- 作者信息 -->
+        <div class="post-author">
+            <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="用户头像" class="post-avatar-large">
+            <div class="post-author-info">
+                <div class="post-author-name">
+                    智能助手团队
+                    <span class="post-badge post-badge-team ml-2">创新团队</span>
+                </div>
+                <div class="text-sm text-gray-500 mt-1">计算机学院 · 项目负责人</div>
+                <div class="text-sm mt-2">致力于用AI技术解决校园生活中的实际问题</div>
+            </div>
+        </div>
+
+        <div class="flex gap-4 mb-4">
+            <button class="btn btn-outline flex-1">
+                <i class="far fa-heart mr-1"></i> 点赞
+            </button>
+            <button class="btn btn-outline flex-1">
+                <i class="fas fa-share-alt mr-1"></i> 分享
+            </button>
+            <button class="btn btn-outline flex-1">
+                <i class="far fa-bookmark mr-1"></i> 收藏
+            </button>
+        </div>
+
+        <!-- 评论区 -->
+        <div class="comments-section">
+            <div class="comments-header">
+                <div class="comments-title">评论 (27)</div>
+                <div class="text-sm text-primary">按热度排序 <i class="fas fa-chevron-down"></i></div>
+            </div>
+
+            <!-- 评论列表 -->
+            <div class="comments-list">
+                <!-- 评论1 -->
+                <div class="comment-item">
+                    <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="评论用户头像" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-author">
+                            王同学
+                            <span class="post-badge post-badge-student ml-2">学生</span>
+                            <span class="comment-time ml-auto">2天前</span>
+                        </div>
+                        <p class="comment-text">我已经使用了两天，体验非常好！尤其是课表查询功能，比教务系统方便多了，而且还能智能提醒上课时间。希望后续能加入更多学习辅导功能。</p>
+                        <div class="comment-actions">
+                            <div class="comment-action">
+                                <i class="far fa-heart"></i>
+                                <span>15</span>
+                            </div>
+                            <div class="comment-action">
+                                <i class="far fa-comment"></i>
+                                <span>回复</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评论2 -->
+                <div class="comment-item">
+                    <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="评论用户头像" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-author">
+                            李老师
+                            <span class="post-badge post-badge-teacher ml-2">校内教师</span>
+                            <span class="comment-time ml-auto">3天前</span>
+                        </div>
+                        <p class="comment-text">很有创意的项目！作为教师，我特别关注AI辅助教学方面的应用。希望能加入师生互动、作业布置和批改等功能，这样会更加完善。期待正式版本！</p>
+                        <div class="comment-actions">
+                            <div class="comment-action">
+                                <i class="far fa-heart"></i>
+                                <span>23</span>
+                            </div>
+                            <div class="comment-action">
+                                <i class="far fa-comment"></i>
+                                <span>回复</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评论3 -->
+                <div class="comment-item">
+                    <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="评论用户头像" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-author">
+                            赵同学
+                            <span class="post-badge post-badge-student ml-2">学生</span>
+                            <span class="comment-time ml-auto">1天前</span>
+                        </div>
+                        <p class="comment-text">我要参与！正好最近在学习NLP和大语言模型，希望能一边测试一边学习项目的技术实现。有没有开源计划？</p>
+                        <div class="comment-actions">
+                            <div class="comment-action">
+                                <i class="far fa-heart"></i>
+                                <span>8</span>
+                            </div>
+                            <div class="comment-action">
+                                <i class="far fa-comment"></i>
+                                <span>回复</span>
+                            </div>
+                        </div>
+
+                        <!-- 回复 -->
+                        <div class="ml-8 mt-3 border-l-2 border-gray-300 pl-3">
+                            <div class="comment-author text-sm">
+                                智能助手团队
+                                <span class="post-badge post-badge-team ml-2">创新团队</span>
+                                <span class="comment-time ml-auto">1天前</span>
+                            </div>
+                            <p class="comment-text text-sm">感谢关注！已私信你测试邀请码，关于开源计划，我们正在考虑部分模块开源，敬请期待~</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评论4 -->
+                <div class="comment-item">
+                    <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="评论用户头像" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-author">
+                            陈同学
+                            <span class="post-badge post-badge-student ml-2">学生</span>
+                            <span class="comment-time ml-auto">2天前</span>
+                        </div>
+                        <p class="comment-text">我要参与！作为设计学院的学生，很想看看这款应用的UI设计，如果需要UI改进建议，我很乐意提供帮助！</p>
+                        <div class="comment-actions">
+                            <div class="comment-action">
+                                <i class="far fa-heart"></i>
+                                <span>6</span>
+                            </div>
+                            <div class="comment-action">
+                                <i class="far fa-comment"></i>
+                                <span>回复</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 查看更多评论 -->
+                <div class="text-center py-4 text-primary text-sm font-medium">
+                    查看更多评论 <i class="fas fa-chevron-down ml-1"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 评论输入框 -->
+    <div class="comment-input-container">
+        <input type="text" class="comment-input" placeholder="写下你的评论...">
+        <button class="comment-send-btn">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item active">
+            <i class="fas fa-compass tab-icon"></i>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 点赞功能
+            const likeBtn = document.querySelector('.btn-outlin e:first-child');
+            likeBtn.addEventListener('click', function () {
+                this.classList.toggle('liked');
+                if (this.classList.contains('liked')) {
+                    this.innerHTML = '<i class="fas fa-heart text-red-500 mr-1"></i> 已点赞';
+                } else {
+                    this.innerHTML = '<i class="far fa-heart mr-1"></i> 点赞';
+                }
+            });
+
+            // 收藏功能
+            const bookmarkBtn = document.querySelector('.btn-outline:last-child');
+            bookmarkBtn.addEventListener('click', function () {
+                this.classList.toggle('bookmarked');
+                if (this.classList.contains('bookmarked')) {
+                    this.innerHTML = '<i class="fas fa-bookmark text-primary mr-1"></i> 已收藏';
+                } else {
+                    this.innerHTML = '<i class="far fa-bookmark mr-1"></i> 收藏';
+                }
+            });
+
+            // 评论发送功能
+            const commentInput = document.querySelector('.comment-input');
+            const sendBtn = document.querySelector('.comment-send-btn');
+
+            sendBtn.addEventListener('click', function () {
+                const commentText = commentInput.value.trim();
+                if (commentText) {
+                    // 创建新评论元素
+                    const newComment = document.createElement('div');
+                    newComment.className = 'comment-item';
+                    newComment.innerHTML = `
+                        <img src="https://randomuser.me/api/portraits/men/99.jpg" alt="评论用户头像" class="comment-avatar">
+                        <div class="comment-content">
+                            <div class="comment-author">
+                                我
+                                <span class="p-student ml-2">学生</span>
+                                <span class="comment-time ml-auto">刚刚</span>
+                                           <p class="comment-text">${commentText}</p>
+                            <div class="comment-actions">
+                                <div class="comment-action">
+                                    <i class="far fa-heart"></i>
+                                     <span>0</span>
+                                </div>
+                                <div class="comment-action">
+                                    <i class="far fa-comment"></i>
+                                    <span>回复</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // 插入新评论到评论列表顶部
+                    const commentsList = document.querySelector('.comments-list');
+                    commentsList.insertBefore(newComment, commentsList.firstChild);
+
+                    //                    commentInput.value = '';
+
+                    // 更新评论数量
+                    const commentsTitle = document.querySelector('.comments-title');
+                    const currentCount = parseInt(commentsTitle.textContent.match(/\d+/)[0]);
+                    commentsTitle.textContent = `评论 (${currentCount + 1})`;
+                }
+            });
+
+            // 回复点击事件
+            const replyBtns = document.querySelectorAll('.comment-action:nth-child(2)');
+            replyBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const authorName = this.closest('.comment-content').querySelector('.comment-author').textContent.trim().split(' ')[0];
+                    commentInput.value = `回复 @${authorName}：`;
+                    commentInput.focus();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

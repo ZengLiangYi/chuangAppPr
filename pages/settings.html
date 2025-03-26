@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 顶部导航栏 -->
+    <div class="bg-white p-4 flex items-center border-b">
+        <a href="profile.html" class="text-gray-500">
+            <i class="fas fa-arrow-left text-lg"></i>
+        </a>
+        <h1 class="text-lg font-semibold ml-4">系统设置</h1>
+    </div>
+
+    <!-- 设置选项 -->
+    <div class="bg-white mt-3">
+        <!-- 账号安全 -->
+        <div class="p-4 border-b">
+            <h2 class="text-sm font-medium text-gray-500 mb-3">账号安全</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-lock text-blue-500 mr-3 text-lg"></i>
+                        <span>修改密码</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt text-green-500 mr-3 text-lg"></i>
+                        <span>账号保护</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-mobile-alt text-purple-500 mr-3 text-lg"></i>
+                        <span>手机号绑定</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm text-gray-500 mr-2">138****8888</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 通知设置 -->
+        <div class="p-4 border-b">
+            <h2 class="text-sm font-medium text-gray-500 mb-3">通知设置</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-bell text-yellow-500 mr-3 text-lg"></i>
+                        <span>消息通知</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" id="messageNotification" checked>
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                        </div>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-envelope text-red-500 mr-3 text-lg"></i>
+                        <span>邮件通知</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" id="emailNotification" checked>
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 隐私设置 -->
+        <div class="p-4 border-b">
+            <h2 class="text-sm font-medium text-gray-500 mb-3">隐私设置</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-user-shield text-indigo-500 mr-3 text-lg"></i>
+                        <span>个人资料可见性</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm text-gray-500 mr-2">所有人可见</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-eye-slash text-gray-500 mr-3 text-lg"></i>
+                        <span>在线状态</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" id="onlineStatus" checked>
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                        </div>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-comments text-blue-500 mr-3 text-lg"></i>
+                        <span>允许收集聊天信息</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" id="chatDataCollection" checked>
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 其他设置 -->
+        <div class="p-4 border-b">
+            <h2 class="text-sm font-medium text-gray-500 mb-3">其他设置</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-globe text-blue-500 mr-3 text-lg"></i>
+                        <span>语言设置</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm text-gray-500 mr-2">简体中文</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-moon text-gray-500 mr-3 text-lg"></i>
+                        <span>深色模式</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" id="darkMode">
+                        <div
+                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                        </div>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-trash-alt text-red-500 mr-3 text-lg"></i>
+                        <span>清除缓存</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm text-gray-500 mr-2">23.5MB</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 关于 -->
+        <div class="p-4">
+            <h2 class="text-sm font-medium text-gray-500 mb-3">关于</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-info-circle text-blue-500 mr-3 text-lg"></i>
+                        <span>当前版本</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm text-gray-500 mr-2">v1.0.0</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-file-alt text-gray-500 mr-3 text-lg"></i>
+                        <span>用户协议</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt text-green-500 mr-3 text-lg"></i>
+                        <span>隐私政策</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 退出登录按钮 -->
+    <div class="p-4 mt-4">
+        <button class="w-full bg-red-500 text-white py-3 rounded-lg font-medium hover:bg-red-600 transition-colors"
+            id="logout-btn">
+            退出登录
+        </button>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <style>
+        /* 底部导航栏样式优化 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+
+        /* 给内容区域添加底部padding，防止被底部导航栏遮挡 */
+        body {
+            padding-bottom: 70px;
+        }
+    </style>
+
+    <script>
+        // 从 localStorage 加载设置状态
+        function loadSettings() {
+            const settings = {
+                messageNotification: localStorage.getItem('messageNotification') === 'true',
+                emailNotification: localStorage.getItem('emailNotification') === 'true',
+                onlineStatus: localStorage.getItem('onlineStatus') === 'true',
+                darkMode: localStorage.getItem('darkMode') === 'true',
+                chatDataCollection: localStorage.getItem('chatDataCollection') === 'true'
+            };
+
+            // 设置开关状态
+            document.getElementById('messageNotification').checked = settings.messageNotification;
+            document.getElementById('emailNotification').checked = settings.emailNotification;
+            document.getElementById('onlineStatus').checked = settings.onlineStatus;
+            document.getElementById('darkMode').checked = settings.darkMode;
+            document.getElementById('chatDataCollection').checked = settings.chatDataCollection;
+
+            // 应用深色模式
+            if (settings.darkMode) {
+                document.body.classList.add('dark');
+                document.body.classList.remove('bg-gray-50');
+                document.body.classList.add('bg-gray-900');
+            }
+        }
+
+        // 保存设置到 localStorage
+        function saveSetting(key, value) {
+            localStorage.setItem(key, value);
+        }
+
+        // 初始化所有开关
+        document.addEventListener('DOMContentLoaded', function () {
+            loadSettings();
+
+            // 消息通知开关
+            document.getElementById('messageNotification').addEventListener('change', function (e) {
+                saveSetting('messageNotification', e.target.checked);
+                // 这里可以添加发送通知设置到服务器的代码
+            });
+
+            // 邮件通知开关
+            document.getElementById('emailNotification').addEventListener('change', function (e) {
+                saveSetting('emailNotification', e.target.checked);
+                // 这里可以添加发送邮件设置到服务器的代码
+            });
+
+            // 在线状态开关
+            document.getElementById('onlineStatus').addEventListener('change', function (e) {
+                saveSetting('onlineStatus', e.target.checked);
+                // 这里可以添加更新在线状态的代码
+            });
+
+            // 深色模式开关
+            document.getElementById('darkMode').addEventListener('change', function (e) {
+                saveSetting('darkMode', e.target.checked);
+                if (e.target.checked) {
+                    document.body.classList.add('dark');
+                    document.body.classList.remove('bg-gray-50');
+                    document.body.classList.add('bg-gray-900');
+                } else {
+                    document.body.classList.remove('dark');
+                    document.body.classList.remove('bg-gray-900');
+                    document.body.classList.add('bg-gray-50');
+                }
+            });
+
+            // 聊天数据收集开关
+            document.getElementById('chatDataCollection').addEventListener('change', function (e) {
+                saveSetting('chatDataCollection', e.target.checked);
+                // 这里可以添加更新数据收集设置的代码
+                if (!e.target.checked) {
+                    alert('关闭数据收集可能会影响部分功能的正常使用，如智能推荐、内容过滤等。');
+                }
+            });
+
+            // 清除缓存按钮
+            document.querySelector('.clear-cache').addEventListener('click', function () {
+                // 这里可以添加清除缓存的逻辑
+                alert('缓存已清除');
+            });
+
+            // 退出登录按钮
+            document.querySelector('.logout-btn').addEventListener('click', function () {
+                if (confirm('确定要退出登录吗？')) {
+                    // 这里可以添加退出登录的逻辑
+                    localStorage.clear(); // 清除所有本地存储
+                    window.location.href = 'login.html'; // 跳转到登录页面
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

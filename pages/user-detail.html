@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户详情</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- 引入ECharts库替换Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        .profile-header {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid white;
+            object-fit: cover;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-stats {
+            display: flex;
+            margin-top: 15px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            border-right: 1px solid var(--medium-gray);
+            transition: background-color 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background-color: var(--light-blue);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--dark-gray);
+            margin-top: 4px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--medium-gray);
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: var(--light-blue);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            border: 1px solid var(--medium-blue);
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background-color: var(--medium-blue);
+            transform: translateY(-2px);
+        }
+
+        .honor-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .honor-item:hover {
+            transform: translateX(5px);
+        }
+
+        .honor-icon {
+            width: 36px;
+            height: 36px;
+            background-color: var(--light-blue);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .contact-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .contact-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 85%;
+            max-width: 320px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* 固定按钮样式 */
+        .fixed-button-container {
+            position: fixed;
+            bottom: 60px;
+            /* 底部导航栏高度 */
+            left: 0;
+            right: 0;
+            padding: 10px 16px;
+            background-color: white;
+            border-top: 1px solid var(--medium-gray);
+            z-index: 99;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 给内容区域添加底部padding，防止被底部导航栏遮挡 */
+        body {
+            padding-bottom: 70px;
+        }
+
+        /* 能力雷达图样式 - 更新为ECharts样式 */
+        .radar-chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            background-color: white;
+            border-radius: 12px;
+            margin: 15px 0;
+            overflow: visible;
+        }
+
+        #ability-radar-chart {
+            width: 100%;
+            height: 250px;
+            margin: 0 auto;
+        }
+
+        .ability-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .ability-item {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            padding: 4px 10px;
+            background-color: var(--light-blue);
+            border-radius: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .ability-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .ability-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .content-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 底部导航栏样式优化 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+
+        /* 给内容区域添加底部padding，防止被底部导航栏和联系按钮遮挡 */
+        body {
+            padding-bottom: 140px;
+            background-color: var(--light-gray);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 页面标题 -->
+    <div class="bg-white p-4 flex justify-between items-center border-b">
+        <a href="find-partner.html" class="text-gray-500">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="text-lg font-bold">用户详情</h1>
+        <div class="w-5"></div> <!-- 占位元素，保持标题居中 -->
+    </div>
+
+    <!-- 个人资料头部 -->
+    <div class="profile-header">
+        <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="用户头像" class="profile-avatar">
+        <h2 class="text-xl font-bold">李同学</h2>
+        <p class="text-sm opacity-90">计算机科学与技术 | 大三</p>
+    </div>
+
+    <!-- 统计数据 -->
+    <div class="p-4" id="user-stats">
+        <div class="profile-stats" id="student-stats">
+            <div class="stat-item">
+                <div class="stat-value">5</div>
+                <div class="stat-label">活动</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">12</div>
+                <div class="stat-label">搭子</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">89%</div>
+                <div class="stat-label">好评率</div>
+            </div>
+        </div>
+
+        <div class="profile-stats" id="mentor-stats" style="display: none;">
+            <div class="stat-item">
+                <div class="stat-value">32</div>
+                <div class="stat-label">指导项目</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">18</div>
+                <div class="stat-label">学生团队</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">96%</div>
+                <div class="stat-label">好评率</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 个人简介 -->
+    <div class="content-card mx-4">
+        <h3 class="section-title">个人简介</h3>
+        <p class="text-sm text-gray-700 leading-relaxed" id="student-intro">
+            计算机科学与技术专业大三学生，热爱编程和创新。曾参与多个校内外创新创业项目，擅长Web开发和UI设计。希望能在创新创业大赛中结识志同道合的伙伴，一起打造有影响力的项目。
+        </p>
+
+        <p class="text-sm text-gray-700 leading-relaxed" id="mentor-intro" style="display: none;">
+            科技创新有限公司首席技术顾问，同时担任北京大学计算机科学系客座教授。拥有15年互联网产品研发和管理经验，曾主导多个大型互联网产品从0到1的开发过程。热衷于指导和支持年轻人的创新创业项目，希望能帮助更多学生将创意转化为实际产品。
+        </p>
+
+        <h3 class="section-title mt-6" id="student-skills-title">技能标签</h3>
+        <div class="flex flex-wrap" id="student-skills">
+            <span class="tag">Web开发</span>
+            <span class="tag">UI设计</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">React</span>
+            <span class="tag">创业规划</span>
+            <span class="tag">项目管理</span>
+        </div>
+
+        <h3 class="section-title mt-6" id="mentor-skills-title" style="display: none;">专业领域</h3>
+        <div class="flex flex-wrap" id="mentor-skills" style="display: none;">
+            <span class="tag">人工智能</span>
+            <span class="tag">大数据分析</span>
+            <span class="tag">云计算架构</span>
+            <span class="tag">产品战略</span>
+            <span class="tag">技术创业</span>
+            <span class="tag">投资顾问</span>
+        </div>
+    </div>
+
+    <!-- 个人能力画像部分，只在学生角色时显示 -->
+    <div class="content-card mx-4" id="ability-section">
+        <h3 class="section-title">个人能力画像</h3>
+
+        <div class="radar-chart-container">
+            <div id="ability-radar-chart"></div>
+        </div>
+    </div>
+
+    <!-- 企业介绍部分，只在导师角色时显示 -->
+    <div class="content-card mx-4" id="company-section" style="display: none;">
+        <h3 class="section-title">企业介绍</h3>
+        <div class="company-info">
+            <div class="flex items-center mb-4">
+                <img src="https://www.tencent.net.cn/wp-content/uploads/2022/12/02_Tencent_Vertical-logo.png"
+                    alt="公司Logo" class="w-16 h-16 object-contain rounded mr-4">
+                <div>
+                    <h4 class="font-bold text-base">科技创新有限公司</h4>
+                    <p class="text-xs text-gray-500">互联网科技 | 成立于2015年</p>
+                </div>
+            </div>
+            <p class="text-sm text-gray-700 leading-relaxed mb-4">
+                科技创新有限公司是一家专注于人工智能和教育科技的创新型企业，致力于将前沿科技融入教育领域，提升学习效率和教学体验。公司拥有一支专业的技术研发团队，在AI算法、教育产品设计等方面拥有丰富经验。
+            </p>
+            <div class="company-highlights mt-4">
+                <div class="highlight-item flex items-center mb-3">
+                    <div class="highlight-icon bg-blue-100 text-blue-600 rounded-full p-2 mr-3">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="text-sm">员工规模：50-100人</div>
+                </div>
+                <div class="highlight-item flex items-center mb-3">
+                    <div class="highlight-icon bg-blue-100 text-blue-600 rounded-full p-2 mr-3">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="text-sm">总部位置：北京市海淀区</div>
+                </div>
+                <div class="highlight-item flex items-center">
+                    <div class="highlight-icon bg-blue-100 text-blue-600 rounded-full p-2 mr-3">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="text-sm">官方网站：www.techinnov.com</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 荣誉成就 -->
+    <div class="content-card mx-4">
+        <h3 class="section-title">荣誉成就</h3>
+
+        <div id="student-honors">
+            <div class="honor-item">
+                <div class="honor-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div>
+                    <div class="font-medium">2022年校园创新创业大赛二等奖</div>
+                    <div class="text-xs text-gray-500">2022年6月</div>
+                </div>
+            </div>
+
+            <div class="honor-item">
+                <div class="honor-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <div>
+                    <div class="font-medium">全国大学生计算机设计大赛优秀奖</div>
+                    <div class="text-xs text-gray-500">2022年10月</div>
+                </div>
+            </div>
+
+            <div class="honor-item">
+                <div class="honor-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <div>
+                    <div class="font-medium">校级优秀学生干部</div>
+                    <div class="text-xs text-gray-500">2021年12月</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mentor-honors" style="display: none;">
+            <div class="honor-item">
+                <div class="honor-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div>
+                    <div class="font-medium">国家科技进步奖二等奖</div>
+                    <div class="text-xs text-gray-500">2020年12月</div>
+                </div>
+            </div>
+
+            <div class="honor-item">
+                <div class="honor-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div>
+                    <div class="font-medium">中国互联网百强企业技术领军人物</div>
+                    <div class="text-xs text-gray-500">2019年5月</div>
+                </div>
+            </div>
+
+            <div class="honor-item">
+                <div class="honor-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div>
+                    <div class="font-medium">《人工智能与教育创新》著作出版</div>
+                    <div class="text-xs text-gray-500">2021年3月</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 创新元素 - 项目经历 -->
+    <div class="innovation-card mx-4 mb-4" id="student-projects">
+        <div class="innovation-title">
+            <i class="fas fa-project-diagram"></i>
+            <span>项目经历</span>
+        </div>
+        <div class="innovation-content">
+            <p class="mb-2">参与开发了校园智能导览系统，负责前端界面设计和开发，该项目获得了校级创新项目立项。</p>
+            <p>正在筹备一个基于AI的学习助手应用，希望能找到对教育科技感兴趣的合作伙伴。</p>
+        </div>
+    </div>
+
+    <!-- 创新元素 - 导师指导项目 -->
+    <div class="innovation-card mx-4 mb-4" id="mentor-projects" style="display: none;">
+        <div class="innovation-title">
+            <i class="fas fa-lightbulb"></i>
+            <span>指导项目</span>
+        </div>
+        <div class="innovation-content">
+            <p class="mb-2">指导「智慧校园」团队开发校园综合服务平台，该项目已在3所高校落地应用。</p>
+            <p class="mb-2">带领研究生团队开发医疗影像AI诊断系统，获得国家级科研项目支持。</p>
+            <p>现正招募对教育科技、医疗AI等领域感兴趣的创新团队，提供技术指导和资源对接。</p>
+        </div>
+    </div>
+
+    <!-- 固定在底部的联系按钮 -->
+    <div class="fixed-button-container">
+        <button class="btn btn-primary btn-block" id="contact-btn">
+            <i class="fas fa-handshake mr-2"></i> 确认联系
+        </button>
+    </div>
+
+    <!-- 联系确认弹窗 -->
+    <div class="contact-modal" id="contact-modal">
+        <div class="modal-content">
+            <h3 class="font-bold text-lg mb-3">确认联系</h3>
+            <p class="text-sm text-gray-600">
+                确认后，系统将向李同学发送联系请求。对方同意后，你们将可以在聊天室中交流。
+            </p>
+            <div class="modal-actions">
+                <button class="btn btn-outline flex-1" id="cancel-btn">取消</button>
+                <button class="btn btn-primary flex-1" id="confirm-btn">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item">
+            <i class="fas fa-compass tab-icon"></i>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const contactBtn = document.getElementById('contact-btn');
+            const contactModal = document.getElementById('contact-modal');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const confirmBtn = document.getElementById('confirm-btn');
+            const abilitySection = document.getElementById('ability-section');
+            const companySection = document.getElementById('company-section');
+
+            // 获取URL参数，判断是学生还是导师角色
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role') || 'student'; // 默认为学生角色
+
+            // 根据角色显示不同内容
+            if (role === 'mentor') {
+                // 导师角色
+                // 隐藏学生特有内容
+                abilitySection.style.display = 'none';
+                document.getElementById('student-stats').style.display = 'none';
+                document.getElementById('student-intro').style.display = 'none';
+                document.getElementById('student-skills').style.display = 'none';
+                document.getElementById('student-skills-title').style.display = 'none';
+                document.getElementById('student-honors').style.display = 'none';
+                document.getElementById('student-projects').style.display = 'none';
+
+                // 显示导师特有内容
+                companySection.style.display = 'block';
+                document.getElementById('user-stats').classList.add('p-2');
+                document.getElementById('mentor-intro').style.display = 'block';
+                document.getElementById('mentor-skills').style.display = 'flex';
+                document.getElementById('mentor-skills-title').style.display = 'block';
+                document.getElementById('mentor-honors').style.display = 'block';
+                document.getElementById('mentor-projects').style.display = 'block';
+
+                // 更改头部信息
+                document.querySelector('.profile-header h2').textContent = '王教授';
+                document.querySelector('.profile-header p').textContent = '科技创新有限公司 | 首席技术顾问';
+                document.querySelector('.profile-header img').src = 'https://randomuser.me/api/portraits/men/42.jpg';
+
+                // 更改联系弹窗内容
+                document.querySelector('#contact-modal p').textContent =
+                    '确认后，系统将向王教授发送联系请求。对方同意后，你们将可以在聊天室中交流。';
+            } else {
+                // 学生角色
+                abilitySection.style.display = 'block';
+                companySection.style.display = 'none';
+            }
+
+            // 打开确认弹窗
+            contactBtn.addEventListener('click', function () {
+                contactModal.classList.add('active');
+            });
+
+            // 关闭确认弹窗
+            cancelBtn.addEventListener('click', function () {
+                contactModal.classList.remove('active');
+            });
+
+            // 确认联系
+            confirmBtn.addEventListener('click', function () {
+                // 显示发送成功提示
+                alert('联系请求已发送，等待对方确认');
+                contactModal.classList.remove('active');
+
+                // 跳转到聊天页面
+                setTimeout(function () {
+                    window.location.href = 'chatroom.html';
+                }, 1500);
+            });
+
+            // 只有在学生角色时初始化能力雷达图
+            if (role === 'student') {
+                // 初始化能力雷达图 - 使用ECharts替换Chart.js
+                const abilityRadarChart = echarts.init(document.getElementById('ability-radar-chart'));
+                const abilityRadarOption = {
+                    color: ['#3498db'],
+                    radar: {
+                        indicator: [
+                            { name: '学术表现', max: 100 },
+                            { name: '创新创业\n意识', max: 100 },
+                            { name: '团队协作', max: 100 },
+                            { name: '执行力', max: 100 },
+                            { name: '沟通能力', max: 100 }
+                        ],
+                        shape: 'polygon',
+                        radius: '60%',
+                        center: ['50%', '50%'],
+                        nameGap: 15,
+                        splitNumber: 5,
+                        axisName: {
+                            color: '#2c3e50',
+                            fontSize: 12,
+                            padding: [3, 0],
+                            lineHeight: 15,
+                            formatter: function (text) {
+                                return text.replace(/\n/g, '\n');
+                            },
+                            rich: {
+                                a: {
+                                    color: '#2c3e50',
+                                    fontSize: 12,
+                                    lineHeight: 15
+                                }
+                            }
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                color: ['#e9ecef', '#d6eaf8', '#aed6f1', '#85c1e9', '#5dade2']
+                            }
+                        },
+                        splitArea: {
+                            show: true,
+                            areaStyle: {
+                                color: ['rgba(52, 152, 219, 0.02)', 'rgba(52, 152, 219, 0.05)',
+                                    'rgba(52, 152, 219, 0.08)', 'rgba(52, 152, 219, 0.1)',
+                                    'rgba(52, 152, 219, 0.15)']
+                            }
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#e9ecef'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        show: false
+                    },
+                    series: [{
+                        name: '能力值',
+                        type: 'radar',
+                        data: [{
+                            value: [85, 92, 78, 88, 82],
+                            name: '个人能力',
+                            symbol: 'circle',
+                            symbolSize: 8,
+                            label: {
+                                show: true,
+                                formatter: '{c}',
+                                color: '#3498db',
+                                fontSize: 12,
+                                fontWeight: 'bold',
+                                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                                borderRadius: 4,
+                                padding: [2, 4],
+                                position: 'outside'
+                            },
+                            lineStyle: {
+                                width: 2
+                            },
+                            areaStyle: {
+                                color: 'rgba(52, 152, 219, 0.3)'
+                            },
+                            itemStyle: {
+                                color: '#3498db'
+                            }
+                        }]
+                    }]
+                };
+                abilityRadarChart.setOption(abilityRadarOption);
+
+                // 窗口大小变化时重新调整图表大小
+                window.addEventListener('resize', function () {
+                    abilityRadarChart.resize();
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

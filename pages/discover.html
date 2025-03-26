@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发现 - 创新创业活动</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .discover-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 16px;
+            border: 1px solid var(--medium-gray);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--light-blue);
+        }
+
+        .post-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+            border: 2px solid var(--light-blue);
+        }
+
+        .post-user-info {
+            flex: 1;
+        }
+
+        .post-username {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .post-badge {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+            color: white;
+        }
+
+        .post-badge-teacher {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .post-badge-mentor {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .post-badge-team {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .post-badge-student {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+
+        .post-date {
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+
+        .post-content {
+            padding: 16px;
+        }
+
+        .post-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .post-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-color);
+            margin-bottom: 12px;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .post-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 16px;
+            background-color: var(--light-blue);
+            color: var(--primary-color);
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 16px;
+            border-top: 1px solid var(--light-blue);
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            color: var(--dark-gray);
+            font-size: 14px;
+            gap: 4px;
+        }
+
+        .category-tabs {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* 底部导航栏样式优化 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+
+        /* 给内容区域添加底部padding，防止被底部导航栏遮挡 */
+        .page-content {
+            padding-bottom: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 搜索栏 -->
+    <div class="search-bar">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="搜索感兴趣的内容">
+    </div>
+
+    <!-- 分类标签 -->
+    <div class="category-tabs">
+        <div class="category-tab active">全部</div>
+        <div class="category-tab">校内活动</div>
+        <div class="category-tab">招聘信息</div>
+        <div class="category-tab">找伙伴</div>
+        <div class="category-tab">项目展示</div>
+        <div class="category-tab">导师空间</div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="page-content">
+        <!-- 校内教师发布的活动推广 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        张教授
+                        <span class="post-badge post-badge-teacher">校内教师</span>
+                    </div>
+                    <div class="post-date">2天前</div>
+                </div>
+            </div>
+            <a href="post-detail.html" class="block">
+                <div class="post-content">
+                    <h3 class="post-title">2025年全国大学生创新创业大赛报名开始啦！</h3>
+                    <p class="post-text">创新创业学院现面向全校学生招募参赛团队，本次大赛主题为"科技创新，服务社会"。欢迎有创意的同学们组队参加，我将提供专业指导和支持！</p>
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                        alt="创新创业大赛" class="post-image">
+                    <div class="post-tags">
+                        <span class="post-tag">创新创业大赛</span>
+                        <span class="post-tag">团队招募</span>
+                        <span class="post-tag">导师指导</span>
+                    </div>
+                </div>
+            </a>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>48</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>15</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 企业导师发布的招聘信息 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        李总
+                        <span class="post-badge post-badge-mentor">企业导师</span>
+                    </div>
+                    <div class="post-date">昨天</div>
+                </div>
+            </div>
+            <a href="post-detail.html" class="block">
+                <div class="post-content">
+                    <h3 class="post-title">【实习招聘】智能科技有限公司招募AI算法实习生</h3>
+                    <p class="post-text">
+                        我司正在招聘AI算法实习生，要求有良好的数学基础和Python编程能力，熟悉主流深度学习框架。我们提供有竞争力的实习薪资和转正机会，欢迎对AI感兴趣的同学投递简历！
+                    </p>
+                    <div class="post-tags">
+                        <span class="post-tag">实习招聘</span>
+                        <span class="post-tag">AI算法</span>
+                        <span class="post-tag">Python</span>
+                    </div>
+                </div>
+            </a>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>32</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>8</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 校内团队项目展示 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        智能助手团队
+                        <span class="post-badge post-badge-team">创新团队</span>
+                    </div>
+                    <div class="post-date">3天前</div>
+                </div>
+            </div>
+            <a href="post-detail.html" class="block">
+                <div class="post-content">
+                    <h3 class="post-title">智能校园助手项目正式上线测试</h3>
+                    <p class="post-text">我们基于大语言模型开发的智能校园助手App已正式进入测试阶段！该项目旨在解决校园信息查询、学习辅导等问题。我们诚邀同学们参与内测，提供宝贵意见。</p>
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                        alt="智能校园助手项目" class="post-image">
+                    <div class="post-tags">
+                        <span class="post-tag">人工智能</span>
+                        <span class="post-tag">校园应用</span>
+                        <span class="post-tag">测试招募</span>
+                    </div>
+                </div>
+            </a>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>63</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>27</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学生找伙伴信息 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/men/28.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        王同学
+                        <span class="post-badge post-badge-student">学生</span>
+                    </div>
+                    <div class="post-date">4小时前</div>
+                </div>
+            </div>
+            <div class="post-content">
+                <h3 class="post-title">【找队友】寻找UI设计师参加互联网+大赛</h3>
+                <p class="post-text">我是计算机学院大三学生，正在组建团队参加互联网+大赛。项目方向是校园二手交易平台，已有后端开发和产品经理，现急需一名UI设计师加入！有意向请私信我~</p>
+                <div class="post-tags">
+                    <span class="post-tag">互联网+</span>
+                    <span class="post-tag">UI设计</span>
+                    <span class="post-tag">寻找队友</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>18</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>5</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 校内活动推广 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        王教授
+                        <span class="post-badge post-badge-teacher">校内教师</span>
+                    </div>
+                    <div class="post-date">5天前</div>
+                </div>
+            </div>
+            <div class="post-content">
+                <h3 class="post-title">商业计划书撰写工作坊</h3>
+                <p class="post-text">创新创业学院将于下周五举办"一天搞定商业计划书"实战工作坊，邀请了三位创投基金的投资人担任指导。名额有限，扫码报名！</p>
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    alt="商业计划书工作坊" class="post-image">
+                <div class="post-tags">
+                    <span class="post-tag">商业计划书</span>
+                    <span class="post-tag">创业培训</span>
+                    <span class="post-tag">工作坊</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>42</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>12</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 企业导师分享 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        林总
+                        <span class="post-badge post-badge-mentor">企业导师</span>
+                    </div>
+                    <div class="post-date">1周前</div>
+                </div>
+            </div>
+            <div class="post-content">
+                <h3 class="post-title">如何打动投资人 — 创业融资经验分享</h3>
+                <p class="post-text">作为一名投资人，我每年会看数百个项目，但真正投资的不到5%。什么样的项目最容易获得投资？本周四晚上7点，线上分享会，带你了解投资人的思考逻辑。</p>
+                <img src="https://images.unsplash.com/photo-1591696205602-2f950c417cb9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    alt="创业融资" class="post-image">
+                <div class="post-tags">
+                    <span class="post-tag">创业融资</span>
+                    <span class="post-tag">投资逻辑</span>
+                    <span class="post-tag">线上分享</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>86</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>31</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学生自我介绍 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/women/58.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        陈同学
+                        <span class="post-badge post-badge-student">学生</span>
+                    </div>
+                    <div class="post-date">3天前</div>
+                </div>
+            </div>
+            <div class="post-content">
+                <h3 class="post-title">【自我介绍】UI/UX设计师，寻找项目合作</h3>
+                <p class="post-text">
+                    大家好，我是设计学院大四学生，专注UI/UX设计，熟练使用Figma、Sketch等工具，曾参与多个校内外项目设计。目前在寻找创新创业项目合作，希望能发挥所长，共同成长！</p>
+                <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    alt="UI设计" class="post-image">
+                <div class="post-tags">
+                    <span class="post-tag">UI设计</span>
+                    <span class="post-tag">UX设计</span>
+                    <span class="post-tag">项目合作</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>37</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>14</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 创新团队项目展示 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        绿色出行团队
+                        <span class="post-badge post-badge-team">创新团队</span>
+                    </div>
+                    <div class="post-date">6天前</div>
+                </div>
+            </div>
+            <div class="post-content">
+                <h3 class="post-title">校园共享单车智能管理系统项目展示</h3>
+                <p class="post-text">我们团队开发的校园共享单车智能管理系统已完成MVP，结合物联网和大数据分析技术，解决校内单车乱停乱放问题。现诚邀对物联网感兴趣的同学加入我们！</p>
+                <img src="https://images.unsplash.com/photo-1556316384-12c35d30afa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    alt="共享单车" class="post-image">
+                <div class="post-tags">
+                    <span class="post-tag">物联网</span>
+                    <span class="post-tag">共享单车</span>
+                    <span class="post-tag">校园应用</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>54</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>19</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 校内教师招募研究助理 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/men/72.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        刘教授
+                        <span class="post-badge post-badge-teacher">校内教师</span>
+                    </div>
+                    <div class="post-date">2天前</div>
+                </div>
+            </div>
+            <div class="post-content">
+                <h3 class="post-title">【招募】计算机视觉实验室招募研究助理</h3>
+                <p class="post-text">我实验室正在进行城市智能交通项目研究，需要3名对计算机视觉和深度学习有兴趣的同学参与。提供科研训练和实验室资源，有机会参与论文发表，表现优秀者可推荐优质实习机会。
+                </p>
+                <div class="post-tags">
+                    <span class="post-tag">计算机视觉</span>
+                    <span class="post-tag">深度学习</span>
+                    <span class="post-tag">研究助理</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>41</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>23</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学生寻找伙伴 -->
+        <div class="discover-card">
+            <div class="post-header">
+                <img src="https://randomuser.me/api/portraits/men/36.jpg" alt="用户头像" class="post-avatar">
+                <div class="post-user-info">
+                    <div class="post-username">
+                        李同学
+                        <span class="post-badge post-badge-student">学生</span>
+                    </div>
+                    <div class="post-date">1天前</div>
+                </div>
+            </div>
+            <div class="post-content">
+                <h3 class="post-title">【求组队】寻找创业大赛队友</h3>
+                <p class="post-text">
+                    大家好，我是工商管理专业大三学生，擅长商业模式设计和市场分析，想参加今年的"互联网+"创新创业大赛，目前有一个关于社区养老服务的创业点子。需要1-2名技术开发人员组队，欢迎感兴趣的同学联系我！</p>
+                <div class="post-tags">
+                    <span class="post-tag">创业大赛</span>
+                    <span class="post-tag">社区养老</span>
+                    <span class="post-tag">技术合作</span>
+                </div>
+            </div>
+            <div class="post-actions">
+                <div class="post-action">
+                    <i class="far fa-heart"></i>
+                    <span>28</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-comment"></i>
+                    <span>9</span>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-bookmark"></i>
+                </div>
+                <div class="post-action">
+                    <i class="far fa-share-square"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 加载更多 -->
+        <div class="load-more">
+            <i class="fas fa-spinner fa-spin mr-2"></i> 加载更多
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home active">
+            <div class="home-button">
+                <i class="fas fa-add tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+</body>
+
+</html>

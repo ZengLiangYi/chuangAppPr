@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双创积分排行榜</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">14:25</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 页面标题 -->
+    <div class="bg-white p-4 flex justify-between items-center border-b sticky top-0 z-10">
+        <a href="javascript:history.back()" class="text-gray-500">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1 class="text-lg font-bold">双创积分排行榜</h1>
+        <div class="w-5"></div> <!-- 占位元素，保持标题居中 -->
+    </div>
+
+    <!-- 排行榜标签 -->
+    <div class="ranking-tabs">
+        <div class="ranking-tab active" data-type="all">总榜</div>
+        <div class="ranking-tab" data-type="month">本月榜</div>
+        <div class="ranking-tab" data-type="week">本周榜</div>
+        <div class="ranking-tab" data-type="major">专业榜</div>
+        <div class="ranking-tab" data-type="class">班级榜</div>
+    </div>
+
+    <!-- 我的排名 -->
+    <div class="my-ranking-card">
+        <div class="my-ranking-header">
+            <div class="my-ranking-info">
+                <span class="my-rank-number">28</span>
+                <div class="my-rank-details">
+                    <span>我的排名</span>
+                    <div class="my-rank-change up">
+                        <i class="fas fa-caret-up"></i>
+                        <span>3 较上周</span>
+                    </div>
+                </div>
+            </div>
+            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="我的头像" class="my-avatar">
+        </div>
+        <div class="my-ranking-stats">
+            <div class="my-points">
+                <div class="points-value">1280</div>
+                <div class="points-label">双创积分</div>
+            </div>
+            <div class="my-level">
+                <div class="level-value">3</div>
+                <div class="level-label">当前等级</div>
+            </div>
+            <div class="my-next-level">
+                <div class="next-level-progress">
+                    <div class="progress-bar" style="width: 64%"></div>
+                </div>
+                <div class="next-level-label">距离下一等级: 320分</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 前三名展示 -->
+    <div class="top-three-container">
+        <div class="top-three-item" id="top-2">
+            <div class="crown crown-2"><i class="fas fa-crown"></i></div>
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="排名2" class="top-avatar">
+            <div class="top-name">李同学</div>
+            <div class="top-level">Lv.5</div>
+            <div class="top-points">3450分</div>
+        </div>
+        <div class="top-three-item" id="top-1">
+            <div class="crown crown-1"><i class="fas fa-crown"></i></div>
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="排名1" class="top-avatar">
+            <div class="top-name">张同学</div>
+            <div class="top-level">Lv.6</div>
+            <div class="top-points">3680分</div>
+        </div>
+        <div class="top-three-item" id="top-3">
+            <div class="crown crown-3"><i class="fas fa-crown"></i></div>
+            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="排名3" class="top-avatar">
+            <div class="top-name">王同学</div>
+            <div class="top-level">Lv.5</div>
+            <div class="top-points">3120分</div>
+        </div>
+    </div>
+
+    <!-- 排行榜列表 -->
+    <div class="ranking-list-container">
+        <div class="ranking-list-header">
+            <div class="rank-header">排名</div>
+            <div class="user-header">用户</div>
+            <div class="level-header">等级</div>
+            <div class="points-header">积分</div>
+        </div>
+
+        <div class="ranking-list">
+            <!-- 排名项目 -->
+            <div class="ranking-item">
+                <div class="rank-number">4</div>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="用户头像" class="user-avatar">
+                    <div class="user-name">赵同学</div>
+                </div>
+                <div class="user-level">Lv.5</div>
+                <div class="user-points">2950分</div>
+            </div>
+
+            <div class="ranking-item">
+                <div class="rank-number">5</div>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/men/29.jpg" alt="用户头像" class="user-avatar">
+                    <div class="user-name">陈同学</div>
+                </div>
+                <div class="user-level">Lv.5</div>
+                <div class="user-points">2840分</div>
+            </div>
+
+            <div class="ranking-item">
+                <div class="rank-number">6</div>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="用户头像" class="user-avatar">
+                    <div class="user-name">刘同学</div>
+                </div>
+                <div class="user-level">Lv.4</div>
+                <div class="user-points">2720分</div>
+            </div>
+
+            <div class="ranking-item">
+                <div class="rank-number">7</div>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="用户头像" class="user-avatar">
+                    <div class="user-name">孙同学</div>
+                </div>
+                <div class="user-level">Lv.4</div>
+                <div class="user-points">2630分</div>
+            </div>
+
+            <div class="ranking-item">
+                <div class="rank-number">8</div>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/women/48.jpg" alt="用户头像" class="user-avatar">
+                    <div class="user-name">周同学</div>
+                </div>
+                <div class="user-level">Lv.4</div>
+                <div class="user-points">2510分</div>
+            </div>
+
+            <div class="ranking-item">
+                <div class="rank-number">9</div>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="用户头像" class="user-avatar">
+                    <div class="user-name">吴同学</div>
+                </div>
+                <div class="user-level">Lv.4</div>
+                <div class="user-points">2480分</div>
+            </div>
+
+            <div class="ranking-item">
+                <div class="rank-number">10</div>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/women/58.jpg" alt="用户头像" class="user-avatar">
+                    <div class="user-name">郑同学</div>
+                </div>
+                <div class="user-level">Lv.4</div>
+                <div class="user-points">2320分</div>
+            </div>
+
+            <!-- 更多排名项... -->
+            <div class="ranking-item highlight">
+                <div class="rank-number">28</div>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="用户头像" class="user-avatar">
+                    <div class="user-name">陈同学 (我)</div>
+                </div>
+                <div class="user-level">Lv.3</div>
+                <div class="user-points">1280分</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 积分规则提示 -->
+    <div class="points-rules">
+        <div class="rules-title">
+            <i class="fas fa-info-circle"></i>
+            <span>积分获取规则</span>
+        </div>
+        <div class="rules-content">
+            <div class="rule-item">
+                <span class="rule-name">参与活动</span>
+                <span class="rule-points">+10~50分</span>
+            </div>
+            <div class="rule-item">
+                <span class="rule-name">组队成功</span>
+                <span class="rule-points">+30分</span>
+            </div>
+            <div class="rule-item">
+                <span class="rule-name">获奖项目</span>
+                <span class="rule-points">+100~500分</span>
+            </div>
+            <div class="rule-item">
+                <span class="rule-name">发布项目</span>
+                <span class="rule-points">+50分</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <a href="home.html" class="tab-item">
+            <i class="fas fa-home tab-icon"></i>
+            <span>首页</span>
+        </a>
+        <a href="find-partner.html" class="tab-item">
+            <i class="fas fa-user-friends tab-icon"></i>
+            <span>找搭子</span>
+        </a>
+        <a href="discover.html" class="tab-item tab-item-home">
+            <div class="home-button">
+                <i class="fas fa-compass tab-icon"></i>
+            </div>
+            <span>发现</span>
+        </a>
+        <a href="chatroom.html" class="tab-item">
+            <i class="fas fa-comments tab-icon"></i>
+            <span>聊天</span>
+        </a>
+        <a href="profile.html" class="tab-item">
+            <i class="fas fa-user tab-icon"></i>
+            <span>我的</span>
+        </a>
+    </div>
+
+    <style>
+        /* 排行榜标签样式 */
+        .ranking-tabs {
+            display: flex;
+            background-color: white;
+            padding: 0;
+            overflow-x: auto;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .ranking-tab {
+            flex: 1;
+            min-width: 70px;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--dark-gray);
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .ranking-tab.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .ranking-tab.active:after {
+            content: '';
+            position: absolute;
+            left: 25%;
+            bottom: 0;
+            width: 50%;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* 我的排名卡片 */
+        .my-ranking-card {
+            margin: 12px 16px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 12px;
+            overflow: hidden;
+            padding: 16px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+
+        .my-ranking-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .my-ranking-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .my-rank-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .my-rank-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .my-rank-change {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .my-rank-change.up {
+            color: #4caf50;
+        }
+
+        .my-rank-change.down {
+            color: #f44336;
+        }
+
+        .my-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .my-ranking-stats {
+            display: flex;
+            align-items: center;
+        }
+
+        .my-points,
+        .my-level {
+            padding-right: 16px;
+            margin-right: 16px;
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .points-value,
+        .level-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .points-label,
+        .level-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .my-next-level {
+            flex: 1;
+        }
+
+        .next-level-progress {
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: white;
+            border-radius: 3px;
+        }
+
+        .next-level-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* 前三名展示样式 */
+        .top-three-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 30px 16px 20px;
+            background-color: white;
+            position: relative;
+        }
+
+        .top-three-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 8px;
+            position: relative;
+        }
+
+        #top-1 {
+            transform: scale(1.1);
+            z-index: 3;
+        }
+
+        #top-2,
+        #top-3 {
+            transform: scale(0.9);
+            opacity: 0.9;
+            z-index: 2;
+        }
+
+        .crown {
+            position: absolute;
+            top: -25px;
+            font-size: 20px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .crown-1 {
+            color: gold;
+        }
+
+        .crown-2 {
+            color: silver;
+        }
+
+        .crown-3 {
+            color: #cd7f32;
+            /* Bronze */
+        }
+
+        .top-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        #top-1 .top-avatar {
+            width: 70px;
+            height: 70px;
+            border: 4px solid gold;
+        }
+
+        #top-2 .top-avatar {
+            border: 3px solid silver;
+        }
+
+        #top-3 .top-avatar {
+            border: 3px solid #cd7f32;
+        }
+
+        .top-name {
+            font-weight: 600;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .top-level {
+            font-size: 12px;
+            color: var(--primary-color);
+            margin: 2px 0;
+        }
+
+        .top-points {
+            font-weight: 600;
+            font-size: 14px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            padding: 2px 8px;
+            border-radius: 12px;
+            color: white;
+            margin-top: 4px;
+        }
+
+        /* 排行榜列表样式 */
+        .ranking-list-container {
+            margin: 0 16px 16px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ranking-list-header {
+            display: flex;
+            padding: 12px 16px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid var(--light-gray);
+            font-size: 12px;
+            color: var(--dark-gray);
+            font-weight: 600;
+        }
+
+        .rank-header {
+            width: 15%;
+            text-align: center;
+        }
+
+        .user-header {
+            width: 45%;
+        }
+
+        .level-header {
+            width: 15%;
+            text-align: center;
+        }
+
+        .points-header {
+            width: 25%;
+            text-align: right;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+
+        .ranking-item.highlight {
+            background-color: #e3f2fd;
+        }
+
+        .rank-number {
+            width: 15%;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            color: var(--dark-gray);
+        }
+
+        .user-info {
+            width: 45%;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .user-level {
+            width: 15%;
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .user-points {
+            width: 25%;
+            text-align: right;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* 积分规则提示 */
+        .points-rules {
+            margin: 0 16px 80px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px dashed var(--light-blue);
+        }
+
+        .rules-title {
+            display: flex;
+            align-items: center;
+            color: var(--dark-gray);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .rules-title i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+
+        .rules-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .rule-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            padding: 6px 10px;
+            background-color: white;
+            border-radius: 6px;
+            border: 1px solid var(--light-gray);
+        }
+
+        .rule-points {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* 底部导航栏样式优化 */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            height: 60px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            font-size: 12px;
+            padding: 8px 0;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+        }
+
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* 首页特殊样式 */
+        .tab-item-home {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 4px;
+            margin-top: -30px;
+            height: auto;
+        }
+
+        .home-button {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 2px;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+            border: 4px solid white;
+            transform: translateY(-8px);
+        }
+
+        .tab-item-home .tab-icon {
+            font-size: 26px;
+            margin-bottom: 0;
+        }
+
+        .tab-item-home span {
+            font-size: 11px;
+            margin-top: 0;
+            transform: translateY(-4px);
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 排行榜标签切换逻辑
+            const rankingTabs = document.querySelectorAll('.ranking-tab');
+
+            rankingTabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    // 移除所有active类
+                    rankingTabs.forEach(t => t.classList.remove('active'));
+                    // 添加active类到当前点击的tab
+                    this.classList.add('active');
+
+                    // 在这里可以添加不同排行榜的数据加载逻辑
+                    const rankType = this.getAttribute('data-type');
+                    // 示例: 假装基于rankType加载不同的数据
+                    console.log('Loading ranking data for type: ' + rankType);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
